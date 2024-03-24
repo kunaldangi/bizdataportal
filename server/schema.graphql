@@ -1,0 +1,32 @@
+type Query{
+    ping: String
+    getWhitelistEmails: [Whitelist]
+    getUsers: [User]
+}
+
+type Mutation{
+    addWhitelistEmail(email: String!): Whitelist
+    deleteWhitelistEmail(id: ID, email: String): Response
+}
+
+type Response{
+    status: String
+    message: String
+}
+
+type Whitelist{
+    id: ID
+    email: String
+    createdAt: String
+    updatedAt: String
+}
+
+type User{
+    id: ID
+    username: String
+    email: String
+    type: Int
+    permissions: String
+    createdAt: String
+    updatedAt: String
+}

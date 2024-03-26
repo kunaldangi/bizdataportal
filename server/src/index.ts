@@ -5,13 +5,12 @@ import { ApolloServer } from '@apollo/server';
 import { expressMiddleware as apolloMiddleware } from '@apollo/server/express4';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import { readFile } from 'fs/promises';
 import cookieParser from "cookie-parser";
 
 // ----- Custom Modules ----- //
 import db from './db';
 import initializeRoutes from './routes';
-import graphqlResolvers from './graphql';
+import { schema as graphqlSchema, resolver as graphqlResolver } from './graphql';
 import { setHttpContext } from "./graphql/context";
 
 async function main(): Promise<void> {
@@ -21,13 +20,11 @@ async function main(): Promise<void> {
 
     await db.initialize(); // initializing the database
 
-    const graphqlSchema: string = await readFile('./schema.graphql', 'utf-8');
-
     expressApp.use(bodyParser.json()); // parsing JSON data
     expressApp.use(cors()); // enabling CORS
     expressApp.use(cookieParser()); // enabling cookie parser
 
-    const apolloServer: ApolloServer = new ApolloServer({ typeDefs: graphqlSchema, resolvers: graphqlResolvers, includeStacktraceInErrorResponses: isDevMode}); // creating an Apollo Server instance
+    const apolloServer = new ApolloServer({ typeDefs: graphqlSchema, resolvers: graphqlResolver, includeStacktraceInErrorResponses: isDevMode}); // creating an Apollo Server instance
     await apolloServer.start(); // starting Apollo Server to handle GraphQL requests
 
 
@@ -39,7 +36,6 @@ async function main(): Promise<void> {
         console.log(`Server is running at http://localhost:${port}`);
     });
 }
-
 
 
 main();

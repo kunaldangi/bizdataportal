@@ -21,12 +21,13 @@ export function initializeUserModel(sequelize: Sequelize){
             type: DataTypes.STRING,
             allowNull: false
         },
-        type: {
+        level: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
+            defaultValue: 1
         },
         permissions: {
-            type: DataTypes.STRING,
+            type: DataTypes.JSON,
             defaultValue: `{"usersAcc":{"manage":false,"managePermissions":false,"manageWhitelist":false},"tables":{"create":false,"read":false,"writeIn":false,"manage":false,"manageUserPermissions":false}}`
         }
     });

@@ -1,10 +1,11 @@
-import { Query } from "./resolvers/Query"; // For reading data
-import { Mutation } from "./resolvers/Mutation"; // For writing data
-import { User } from "./resolvers/User";
+import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 
-const resolvers = {
-    Query: Query,
-    Mutation: Mutation,
-    User: User
-};
-export default resolvers;
+import { rootSchema, rootResolver } from './_root';
+import { responseSchema } from './Response';
+import { userResolver, userSchema } from './User';
+import { whitelistResolver, whitelistSchema } from './Whitelist';
+import { tableResolver, tableSchema } from './Table';
+
+
+export const schema = mergeTypeDefs([rootSchema, responseSchema, userSchema, whitelistSchema, tableSchema]);
+export const resolver = mergeResolvers([rootResolver, whitelistResolver, userResolver, tableResolver]);

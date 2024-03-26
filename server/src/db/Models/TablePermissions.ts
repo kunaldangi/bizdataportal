@@ -18,13 +18,15 @@ export function initializeTablePermissionsModel(sequelize: Sequelize){
         },
         userId: {
             type: DataTypes.INTEGER,
+            allowNull: false,
             references: {
                 model: 'user',
                 key: 'id'
             }
         },
         permissions: {
-            type: DataTypes.STRING,
+            type: DataTypes.JSON,
+            allowNull: false,
             defaultValue: `{"writeEntry":false,"manageRows":false,"manageFields":false,"manageTable":false,"manageUsers":false}`
         }
     });

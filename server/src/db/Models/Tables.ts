@@ -25,7 +25,8 @@ export function initializeTablesModel(sequelize: Sequelize){
             allowNull: true
         },
         fields: {
-            type: DataTypes.JSON
+            type: DataTypes.JSON,
+            defaultValue: []
         }
     });
 }

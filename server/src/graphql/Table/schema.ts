@@ -1,6 +1,13 @@
 export const schema = /* GraphQL */`
+    type Query {
+        getTables: [Table]
+        getTable(id: ID): Table
+    }
+
     type Mutation {
         createTable(name: String!, fields: String): Table
+        # viewTable(id: ID!): Table,
+        # viewTables
     }
 
     type Table{

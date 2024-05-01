@@ -1,5 +1,20 @@
 import { Sequelize, DataTypes } from "sequelize";
 
+const defaultPermissions = {
+    usersAcc:{
+        manage:false,
+        managePermissions:false,
+        manageWhitelist:false
+    },
+    tables:{
+        create:false,
+        read:false,
+        writeIn:false,
+        manage:false,
+        manageUserPermissions:false
+    }
+};
+
 export function initializeUserModel(sequelize: Sequelize){
     return sequelize.define('user', {
         id: {
@@ -28,7 +43,7 @@ export function initializeUserModel(sequelize: Sequelize){
         },
         permissions: {
             type: DataTypes.JSON,
-            defaultValue: `{"usersAcc":{"manage":false,"managePermissions":false,"manageWhitelist":false},"tables":{"create":false,"read":false,"writeIn":false,"manage":false,"manageUserPermissions":false}}`
+            defaultValue: defaultPermissions
         }
     });
 }

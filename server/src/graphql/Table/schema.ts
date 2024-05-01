@@ -1,13 +1,13 @@
 export const schema = /* GraphQL */`
     type Query {
         getTables: [Table]
-        getTable(id: ID): Table
+        getTable(id: ID!): Table
+        viewTable(id: ID!): String
     }
 
     type Mutation {
         createTable(name: String!, fields: String): Table
-        # viewTable(id: ID!): Table,
-        # viewTables
+        editTable(id: ID!, table: String): Table # table is a string field of JSON
     }
 
     type Table{

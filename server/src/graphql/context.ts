@@ -12,8 +12,8 @@ export async function setHttpContext({ req }: { req: any}): Promise<Context>{
 				const result: any = await verifyToken(cookies?.session, process.env.JWT_SESSION_SECRET || '');        
 				if(result?.userId){
 					const userData: any = await db.user?.findOne({ where: { id: result.userId } });
-					userData.dataValues.permissions = JSON.parse(userData?.dataValues.permissions);
-					return { ...userData.dataValues, auth: true};
+					userData.dataValues.permissions = userData?.dataValues.permissions;
+					return { ...userData.dataValues, auth: true}; // adding auth to the context
 				}
 			}
 		}

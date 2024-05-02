@@ -14,15 +14,16 @@ export const resolver = {
     Query: {
         getTable: Read.Query.getTable,
         getTables: Read.Query.getTables,
-        viewTable: Read.Query.viewTable
+        readTable: Read.Query.readTable
     },
     Mutation: {
         createTable: Create.Mutation.createTable,
-        editTable: Update.Mutation.editTable
+        editTable: Update.Mutation.editTable,
+        writeInTable: Create.Mutation.writeInTable
     },
 
     Table: {
-        id: (_root: any, data: any, context: Context): number => {
+        id: (_root: any, data: {id: number, rows: string}, context: Context): number => {
             if (!context.auth) throw new GraphQLError('Unauthorized Access! Please login to continue.');
             // console.log(_root);
             return _root.id;

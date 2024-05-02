@@ -27,6 +27,10 @@ export function initializeTablesModel(sequelize: Sequelize){
         fields: {
             type: DataTypes.JSON,
             defaultValue: []
+        },
+        totalFields: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0
         }
     });
 }

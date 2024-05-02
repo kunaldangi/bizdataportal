@@ -12,6 +12,7 @@ export interface Table {
 }
 
 export interface TableField {
+    id: number;
     title: string;
     dataType: string;
     defaultValue: string;

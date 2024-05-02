@@ -36,7 +36,7 @@ export const Update = {
                             if(!context.permissions.tables.manage && !userTPerm.dataValues.permissions.manageFields) throw new GraphQLError('You do not have permission to manage fields of the table.');
                             for(let i=0; i<value.length; i++){ // Loop through the fields array
                                 for(const [fKey, fValue] of Object.entries(value[i])){
-
+                                    if(fKey === 'id') throw new GraphQLError(`You cannot change 'id' of a field.`);
                                     if(!table.dataValues[key][i][fKey]) throw new GraphQLError(`'${fKey}' do not exist in the fields.`);
                                     if(fKey === 'dataType' && !(fValue === 'text' || fValue === 'number')) throw new GraphQLError(`Invalid data type '${fValue}'! dataType can only be 'text' or 'number'.`);
                                     if(fKey === 'defaultValue' && table.dataValues[key][i]['dataType'] === "text"){

@@ -43,10 +43,11 @@ export const Read = {
                 throw new GraphQLError(error);
             }
         },
-        viewTable: async (_root: any, data: {id: number}, context: Context):Promise<string> => {
+        readTable: async (_root: any, data: {id: number}, context: Context):Promise<string> => {
             if (!context.auth) throw new GraphQLError('Unauthorized Access! Please login to continue.');
             try {
-                if (context.permissions.tables.read){
+                let userTPerm: any = await db.tablePermissions.findOne({where: {tableId: data.id, userId: context.id}});
+                if (context.permissions.tables.read || userTPerm.dataValues.permissions){
                     const table: any = await db.tables.findByPk(data.id);
                     if(!table.dataValues.name) throw new GraphQLError('Table not found!');
                     // const [tableData, tableMetaData] = await db.sequelize.query('SELECT * FROM table');

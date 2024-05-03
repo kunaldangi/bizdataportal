@@ -1,5 +1,7 @@
 import { GraphQLError } from "graphql";
 
+import { escapeIdPostgre } from "../../../lib/sqlString";
+
 import { Table, TableField } from "..";
 import { Context } from "../../context";
 import db from "../../../db";
@@ -43,17 +45,32 @@ export const Read = {
                 throw new GraphQLError(error);
             }
         },
-        readTable: async (_root: any, data: {id: number}, context: Context):Promise<string> => {
+        readTable: async (_root: any, data: {id: number}, context: Context):Promise<any> => {
             if (!context.auth) throw new GraphQLError('Unauthorized Access! Please login to continue.');
             try {
                 let userTPerm: any = await db.tablePermissions.findOne({where: {tableId: data.id, userId: context.id}});
-                if (context.permissions.tables.read || userTPerm.dataValues.permissions){
-                    const table: any = await db.tables.findByPk(data.id);
-                    if(!table.dataValues.name) throw new GraphQLError('Table not found!');
-                    // const [tableData, tableMetaData] = await db.sequelize.query('SELECT * FROM table');
-                    console.log(table.dataValues);
-                }
-                return "";
+                if (!context.permissions.tables.read && !userTPerm.dataValues.permissions) throw new GraphQLError('You do not have permission to read this table.');
+                
+                const table: any = await db.tables.findByPk(data.id);
+                if(!table.dataValues.name) throw new GraphQLError('Table not found!');
+
+                let tableFields: TableField[] = table.dataValues.fields;
+                let tableName: string = `table_${parseInt(table.id)}`;
+                const [tableData, tableMetaData] = await db.sequelize.query(`SELECT * FROM ${escapeIdPostgre(tableName)}`);
+                if(!tableData || (tableData.length <= 0)) throw new GraphQLError('No data found in the table.');
+
+                let newTableData = tableData.map((row: any, rowIndex: number) => {
+                    let newRow: any[] = [];
+                    let fieldIndex: number = 0;
+                    for (const [key, value] of Object.entries(row)) {
+                        if(key !== 'id'){
+                            newRow.push({id: tableFields[fieldIndex].id, title: tableFields[fieldIndex].title, value: value});
+                            fieldIndex++;
+                        }
+                    }
+                    return newRow;
+                });
+                return {id: table.id, rows: newTableData};
             } catch (error: any){
                 throw new GraphQLError(error);
             }

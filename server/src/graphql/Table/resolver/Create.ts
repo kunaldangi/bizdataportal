@@ -1,4 +1,7 @@
 import { GraphQLError } from "graphql";
+import SqlString from "sqlstring";
+
+import { escapeIdPostgre } from "../../../lib/sqlString";
 
 import { Table, TableField } from "..";
 import { Context } from "../../context";
@@ -77,13 +80,14 @@ export const Create = {
                 let userRows: any = JSON.parse(data.rows);
                 for(let rowIndex=0; rowIndex<userRows.length; rowIndex++){
                     let row: any = userRows[rowIndex];
-                    let insertQuery: string = `INSERT INTO table_${parseInt(table.id)} (`;
+                    let tableName: string = `table_${parseInt(table.id)}`;
+                    let insertQuery: string = `INSERT INTO ${escapeIdPostgre(tableName)} (`;
                     let fieldsQuery: string = '';
                     let valuesQuery: string = '';
                     row.forEach((field: any, fieldIndex: number) => {
                         if(!tableFields[field.id]) throw new GraphQLError('Invalid field id!');
-                        fieldsQuery += `${tableFields[field.id].title},`;
-                        valuesQuery += `'${field.value}',`;
+                        fieldsQuery += `${escapeIdPostgre(tableFields[field.id].title)},`;
+                        valuesQuery += `'${SqlString.escape(field.value)}',`;
                     });
                     fieldsQuery = fieldsQuery.slice(0, -1);
                     valuesQuery = valuesQuery.slice(0, -1);

@@ -34,6 +34,7 @@ export const schema = /* GraphQL */`
 
     type TableFieldsData{
         id: ID
+        title: String
         value: String
     }
 `;

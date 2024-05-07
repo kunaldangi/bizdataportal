@@ -17,3 +17,24 @@ export interface TableField {
     dataType: string;
     defaultValue: string;
 }
+
+export interface TablePermissions {
+    writeEntry: false,
+    manageRows: false,
+    manageFields: false,
+    manageTable: false,
+    manageUsers: false
+}
+
+export type RowsData = FieldData[][];
+export type RowData = FieldData[];
+
+export interface FieldData {
+    rowId: number;
+    fieldId: number;
+    title: string;
+    value: string;
+    createdat: string;
+    updatedat: string;
+}
+

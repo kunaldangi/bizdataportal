@@ -1,9 +1,6 @@
 import { GraphQLError } from "graphql";
 
-import { Table, TableField } from "..";
 import { Context } from "../../context";
-import db from "../../../db";
-
 
 import { Update } from "./Update";
 import { Create } from "./Create";

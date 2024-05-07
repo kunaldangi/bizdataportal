@@ -29,12 +29,15 @@ export const schema = /* GraphQL */`
 
     type TableData{
         id: ID
-        rows: [[TableFieldsData]]
+        rows: [[FieldsData]]
     }
 
-    type TableFieldsData{
-        id: ID
+    type FieldsData{
+        rowId: ID
+        fieldId: ID
         title: String
         value: String
+        createdat: String
+        updatedat: String
     }
 `;

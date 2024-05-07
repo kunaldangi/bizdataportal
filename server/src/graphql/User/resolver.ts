@@ -4,6 +4,8 @@ import { Context } from "../context";
 import db from "../../db";
 import { Response } from "../Response";
 
+import { User, UserPermissions } from ".";
+
 export const resolver = {
     Query: {
         getUsers: async function getUsers(_root: any, data: any, context: Context): Promise<User[]> {
@@ -112,32 +114,5 @@ export const resolver = {
     }
 }
 
-export interface User {
-    id: number;
-    username: string;
-    email: string;
-    level: number;
-    permissions: UserPermissions;
-    createdAt: string;
-    updatedAt: string;
-}
 
-interface UserPermissions{
-    usersAcc: UserAccountPermissions
-    tables: UserTablePermissions
-}
-
-interface UserAccountPermissions{
-    manage: boolean;
-    managePermissions: boolean;
-    manageWhitelist: boolean;  
-}
-
-interface UserTablePermissions{
-    create: boolean;
-    read: boolean;
-    writeIn: boolean;
-    manage: boolean;
-    manageUserPermissions: boolean;
-}
 

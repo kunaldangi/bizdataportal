@@ -2,7 +2,7 @@ import cookie from 'cookie';
 import verifyToken from '../lib/jwt';
 
 import db from '../db';
-import { User } from './User/resolver';
+import { User } from './User';
 
 export async function setHttpContext({ req }: { req: any}): Promise<Context>{
 	try {

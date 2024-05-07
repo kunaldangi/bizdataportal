@@ -2,27 +2,31 @@ import { GraphQLError } from "graphql";
 
 import { escapeIdPostgre } from "../../../lib/sqlString";
 
-import { Table, TableField } from "..";
+import { Table, TableField, TablePermissions } from "..";
 import { Context } from "../../context";
+
 import db from "../../../db";
 
 export const Read = {
     Query: {
-        getTable: async (_root: any, data: {id: number}, context: Context): Promise<Table> => {
+        getTable: async (_root: any, data: {id: number}, context: Context): Promise<Table> => { // Verified
             if (!context.auth) throw new GraphQLError('Unauthorized Access! Please login to continue.');
             try {
-                let tablePerm: any = await db.tablePermissions.findOne({where: {userId: context.id, tableId: data.id}});
-                console.log(tablePerm.dataValues.permissions)
-                if(!(tablePerm.dataValues.permissions || context.permissions.tables.read)) throw new GraphQLError('You do not have permission to view this table.');
+                let result: any = await db.tablePermissions.findOne({where: {userId: context.id, tableId: data.id}});
+                if(!result?.dataValues) throw new GraphQLError('You do not have permission to view this table.');
+
+                let tablePerm: TablePermissions = result.dataValues.permissions;
+                if(!tablePerm && !context.permissions.tables.read) throw new GraphQLError('You do not have permission to view this table.');
     
                 const table = await db.tables.findByPk(data.id);
                 if(table?.dataValues) return table?.dataValues;
+                
                 throw new GraphQLError('No tables found.');
             } catch (error: any) {
                 throw new GraphQLError(error);
             }
         },
-        getTables: async (_root: any, _:any, context: Context):Promise<Table[]> => {
+        getTables: async (_root: any, _:any, context: Context):Promise<Table[]> => { // Verified
             if (!context.auth) throw new GraphQLError('Unauthorized Access! Please login to continue.');
             try {
                 if (context.permissions.tables.read){
@@ -31,13 +35,9 @@ export const Read = {
                 }
                 else {
                     const result: any = await db.tablePermissions.findAll({where: {userId: context.id}}); // get all tables that the user has access to read/view.
-                    
-                    let tables: Table[] = [];
-                    for(let i = 0; i < result.length; i++){ // loop all the tables
-                        const table = await db.tables.findByPk(result[i].dataValues.tableId);
-                        tables.push(table?.dataValues);
-                    }
-    
+                    let tablesId: number[] = result.map((table: any) => table.dataValues.tableId);
+                    let tablesResult = await db.tables.findAll({where: {id: tablesId}});
+                    let tables: Table[] = tablesResult.map((table: any) => table.dataValues);
                     if(tables.length > 0) return tables;
                 }
                 throw new GraphQLError('No tables found!');
@@ -56,15 +56,15 @@ export const Read = {
 
                 let tableFields: TableField[] = table.dataValues.fields;
                 let tableName: string = `table_${parseInt(table.id)}`;
-                const [tableData, tableMetaData] = await db.sequelize.query(`SELECT * FROM ${escapeIdPostgre(tableName)}`);
+                const [tableData, tableMetaData] = await db.sequelize.query(`SELECT * FROM ${escapeIdPostgre(tableName)} ORDER BY id DESC;`);
                 if(!tableData || (tableData.length <= 0)) throw new GraphQLError('No data found in the table.');
 
                 let newTableData = tableData.map((row: any, rowIndex: number) => {
                     let newRow: any[] = [];
                     let fieldIndex: number = 0;
                     for (const [key, value] of Object.entries(row)) {
-                        if(key !== 'id'){
-                            newRow.push({id: tableFields[fieldIndex].id, title: tableFields[fieldIndex].title, value: value});
+                        if(key !== 'id' && key !== 'createdat' && key !== 'updatedat'){
+                            newRow.push({rowId: row.id, fieldId: tableFields[fieldIndex].id, title: tableFields[fieldIndex].title, value: value, createdat: row['createdat'], updatedat: row['updatedat']});
                             fieldIndex++;
                         }
                     }

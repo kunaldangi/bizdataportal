@@ -2,7 +2,7 @@ import { GraphQLError } from "graphql";
 
 import { escapeIdPostgre } from "../../../lib/sqlString";
 
-import { Table, TableField, TablePermissions } from "..";
+import { RowData, RowsData, Table, TableField, TablePermissions } from "..";
 import { Context } from "../../context";
 
 import db from "../../../db";
@@ -45,26 +45,26 @@ export const Read = {
                 throw new GraphQLError(error);
             }
         },
-        readTable: async (_root: any, data: {id: number}, context: Context):Promise<any> => {
+        readTable: async (_root: any, data: {id: number}, context: Context):Promise<{id: number, rows: RowsData}> => {
             if (!context.auth) throw new GraphQLError('Unauthorized Access! Please login to continue.');
             try {
-                let userTPerm: any = await db.tablePermissions.findOne({where: {tableId: data.id, userId: context.id}});
-                if (!context.permissions.tables.read && !userTPerm.dataValues.permissions) throw new GraphQLError('You do not have permission to read this table.');
+                let userTPerm: TablePermissions = (await db.tablePermissions.findOne({where: {tableId: data.id, userId: context.id}}))?.dataValues;
+                if (!context.permissions.tables.read && !userTPerm) throw new GraphQLError('You do not have permission to read this table.');
                 
-                const table: any = await db.tables.findByPk(data.id);
-                if(!table.dataValues.name) throw new GraphQLError('Table not found!');
+                const table: Table = (await db.tables.findByPk(data.id))?.dataValues;
+                if(!table.name) throw new GraphQLError('Table not found!');
 
-                let tableFields: TableField[] = table.dataValues.fields;
-                let tableName: string = `table_${parseInt(table.id)}`;
+                let tableFields: TableField[] = table.fields;
+                let tableName: string = `table_${table.id}`;
                 const [tableData, tableMetaData] = await db.sequelize.query(`SELECT * FROM ${escapeIdPostgre(tableName)} ORDER BY id DESC;`);
                 if(!tableData || (tableData.length <= 0)) throw new GraphQLError('No data found in the table.');
 
-                let newTableData = tableData.map((row: any, rowIndex: number) => {
-                    let newRow: any[] = [];
+                let newTableData: RowsData  = tableData.map((row: any, rowIndex: number) => {
+                    let newRow: RowData = [];
                     let fieldIndex: number = 0;
                     for (const [key, value] of Object.entries(row)) {
                         if(key !== 'id' && key !== 'createdat' && key !== 'updatedat'){
-                            newRow.push({rowId: row.id, fieldId: tableFields[fieldIndex].id, title: tableFields[fieldIndex].title, value: value, createdat: row['createdat'], updatedat: row['updatedat']});
+                            newRow.push({rowId: row.id, fieldId: tableFields[fieldIndex].id, title: tableFields[fieldIndex].title, value: value as string, createdat: row['createdat'], updatedat: row['updatedat']});
                             fieldIndex++;
                         }
                     }

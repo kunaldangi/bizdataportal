@@ -9,6 +9,7 @@ export const schema = /* GraphQL */`
         createTable(name: String!, fields: String): Table
         editTable(id: ID!, table: String): Table # table is a string field of JSON (object)
         writeInTable(id: ID!, rows: String!): TableData # rows is a string field of JSON (2D array)
+        editRows(id: ID!, rows: String!): TableData
     }
 
     type Table{

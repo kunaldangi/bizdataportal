@@ -75,7 +75,7 @@ export const Create = {
                 throw new GraphQLError(error);
             }
         },
-        writeInTable: async (_root: any, data: any, context: Context): Promise<{id: number, rows: RowsData}> => { // Verified
+        writeInTable: async (_root: any, data: {id: number, rows: string}, context: Context): Promise<{id: number, rows: RowsData}> => { // Verified
             if (!context.auth) throw new GraphQLError('Unauthorized Access! Please login to continue.');
             try {
                 let userTPerm: TablePermissions = (await db.tablePermissions.findOne({where: {tableId: data.id, userId: context.id}}))?.dataValues;

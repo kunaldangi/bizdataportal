@@ -3,7 +3,7 @@ import SqlString from "sqlstring";
 
 import { escapeIdPostgre } from "../../../lib/sqlString";
 
-import { Table, TableField, TablePermissions } from "..";
+import { RowData, RowsData, Table, TableField, TablePermissions } from "..";
 import { Context } from "../../context";
 
 import db from "../../../db";
@@ -96,6 +96,58 @@ export const Update = {
                 return table.dataValues;
 
             } catch (error: any) {
+                throw new GraphQLError(error);
+            }
+        },
+        editRows: async (_root: any, data: {id: number, rows: string}, context: Context): Promise<{id: number, rows: RowsData}> => {
+            if (!context.auth) throw new GraphQLError('Unauthorized Access! Please login to continue.');
+            try{
+                let userTPerm: TablePermissions = (await db.tablePermissions.findOne({where: {tableId: data.id, userId: context.id}}))?.dataValues?.permissions;
+                if(!userTPerm.manageRows && !context.permissions.tables.manage) throw new GraphQLError('You do not have permission to edit rows in this table.');
+                
+                let table: Table = (await db.tables.findByPk(data.id))?.dataValues;
+                if(table.id != data.id) throw new GraphQLError('Table not found!');
+                let tableFields: TableField[] = table.fields;
+
+                let rowsData: RowsData = JSON.parse(data.rows);
+                let tableName: string = `table_${table.id}`; let query: string = ``;
+                let rowIds: number[] = [];
+                rowsData.forEach((fieldData, rowIndex) => {
+                    let rowId: number = -1;
+                    let updateQuery: string = `UPDATE ${escapeIdPostgre(tableName)} SET`;
+                    fieldData.forEach((field, fieldIndex) => {
+                        if(!tableFields[field.fieldId]) throw new GraphQLError(`Field not found with id ${field.fieldId}.`);
+                        rowId = field.rowId;
+                        updateQuery += ` ${escapeIdPostgre(tableFields[field.fieldId].title)} = ${SqlString.escape(field.value)},`;
+                    });
+                    updateQuery += ` "updatedat" = ${SqlString.escape(new Date().toISOString())}`
+                    updateQuery += ` WHERE "id" = ${SqlString.escape(fieldData[0].rowId)};`
+                    query += updateQuery;
+                    rowIds.push(rowId);
+                });
+                const [editQueryResult, editQueryMetaData]: any = await db.sequelize.query(query);
+                if(!editQueryMetaData[0].command) throw new GraphQLError('Failed to update rows.');
+
+                let rowIdsString: string = rowIds.join(',');
+                const [rowsResult, rowsMetaData]: any = await db.sequelize.query(`SELECT * FROM ${escapeIdPostgre(tableName)} WHERE "id" IN (${rowIdsString});`);
+                if(!rowsMetaData || (rowsResult.length <= 0)) throw new GraphQLError('Failed to fetch updated rows.');
+                
+                let tableRows: RowsData = rowsResult.map((row: any, rowIndex: number) => {
+                    let newRow: RowData = [];
+                    let fieldIndex: number = 0;
+                    for (const [key, value] of Object.entries(row)) {
+                        if(key !== 'id' && key !== 'createdat' && key !== 'updatedat'){
+                            console.log(row['createdat'], row['updatedat']);
+                            newRow.push({rowId: row.id, fieldId: tableFields[fieldIndex].id, title: tableFields[fieldIndex].title, value: value as string, createdat: row['createdat'], updatedat: row['updatedat']});
+                            fieldIndex++;
+                        }
+                    }
+                    return newRow;
+                });
+                
+                return {id: table.id, rows: tableRows};
+            }
+            catch(error: any){
                 throw new GraphQLError(error);
             }
         }

@@ -2,7 +2,7 @@ import { GraphQLError } from "graphql";
 
 import { escapeIdPostgre } from "../../../lib/sqlString";
 
-import { RowData, RowsData, Table, TableField, TablePermissions } from "..";
+import { RowData, RowsData, Table, TableField, TablePermissions, TableUser } from "..";
 import { Context } from "../../context";
 
 import db from "../../../db";
@@ -72,6 +72,43 @@ export const Read = {
                 });
                 return {id: table.id, rows: newTableData};
             } catch (error: any){
+                throw new GraphQLError(error);
+            }
+        },
+
+        getTableUsers: async (_root: any, data: {tableId: number}, context: Context):Promise<TableUser[]> =>{
+            if(!context.auth) throw new GraphQLError('Unauthorized Access! Please login to continue.');
+            try{
+                let usrTablePrmResult = await db.tablePermissions.findOne({where: {tableId: data.tableId, userId: context.id}});
+                if(!usrTablePrmResult) throw new GraphQLError("You do not have permission to view users of this table.");
+
+                let usrTablePrm: TablePermissions = usrTablePrmResult.dataValues?.permissions;
+                if(!context.permissions.tables.manageUserPermissions && !usrTablePrm.manageUsers) throw new GraphQLError("You do not have permission to view users of this table.");
+
+                let tableUsrResult = await db.tablePermissions.findAll({where: {tableId: data.tableId}});
+                if(tableUsrResult.length <= 0) throw new GraphQLError("No users found in this table.");
+
+                let usrIds: number[] = [];
+                let tableUsers: TableUser[] = tableUsrResult.map((usr: any) => {
+                    usrIds.push(usr.dataValues.userId);
+                    return {
+                        id: usr.dataValues.userId,
+                        username: null as any,
+                        email: null as any,
+                        permissions: usr.dataValues.permissions
+                    }
+                });
+
+                let usrResult = await db.user.findAll({where: {id: usrIds}});
+                usrResult.forEach((usr: any) => { // update username and email of the users
+                    let index = tableUsers.findIndex((u: TableUser) => u.id === usr.dataValues.id);
+                    tableUsers[index].username = usr.dataValues.username;
+                    tableUsers[index].email = usr.dataValues.email;
+                });
+
+                return tableUsers;
+            }
+            catch (error: any){
                 throw new GraphQLError(error);
             }
         }

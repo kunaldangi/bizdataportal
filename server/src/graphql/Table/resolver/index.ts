@@ -11,7 +11,8 @@ export const resolver = {
     Query: {
         getTable: Read.Query.getTable,
         getTables: Read.Query.getTables,
-        readTable: Read.Query.readTable
+        readTable: Read.Query.readTable,
+        getTableUsers: Read.Query.getTableUsers
     },
     Mutation: {
         createTable: Create.Mutation.createTable,
@@ -25,10 +26,11 @@ export const resolver = {
             if (!context.auth) throw new GraphQLError('Unauthorized Access! Please login to continue.');
             // console.log(_root);
             return _root.id;
-        }
+        },
         // ownerId: ID
         // name: String
         // description: String
         // fields: [TableFields]
+        // totalFields: Int
     }
 }

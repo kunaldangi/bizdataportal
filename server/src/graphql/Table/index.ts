@@ -18,6 +18,13 @@ export interface TableField {
     defaultValue: string;
 }
 
+export interface TableUser {
+    id: number;
+    username: number;
+    email: number;
+    permissions: TablePermissions;
+}
+
 export interface TablePermissions {
     writeEntry: false,
     manageRows: false,

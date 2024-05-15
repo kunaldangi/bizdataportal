@@ -3,6 +3,8 @@ export const schema = /* GraphQL */`
         getTables: [Table]
         getTable(id: ID!): Table
         readTable(id: ID!): TableData
+
+        getTableUsers(tableId: ID!): [TableUser] # u won't get admin user here
     }
 
     type Mutation {
@@ -19,6 +21,21 @@ export const schema = /* GraphQL */`
         description: String
         fields: [TableFields]
         totalFields: Int
+    }
+
+    type TableUser{
+        id: ID!
+        username: String
+        email: String
+        permissions: TablePermissions
+    }
+
+    type TablePermissions{
+        writeEntry: Boolean,
+        manageRows: Boolean,
+        manageFields: Boolean,
+        manageTable: Boolean,
+        manageUsers: Boolean
     }
 
     type TableFields{

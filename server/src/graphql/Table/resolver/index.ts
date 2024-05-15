@@ -19,7 +19,8 @@ export const resolver = {
         editTable: Update.Mutation.editTable,
         writeInTable: Create.Mutation.writeInTable,
         editRows: Update.Mutation.editRows,
-        addTableUser: Create.Mutation.addTableUser
+        addTableUser: Create.Mutation.addTableUser,
+        editTableUserPermissions: Update.Mutation.editTableUserPermissions
     },
 
     Table: {

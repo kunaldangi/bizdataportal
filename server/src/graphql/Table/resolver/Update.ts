@@ -3,10 +3,11 @@ import SqlString from "sqlstring";
 
 import { escapeIdPostgre } from "../../../lib/sqlString";
 
-import { RowData, RowsData, Table, TableField, TablePermissions} from "..";
+import { RowData, RowsData, Table, TableField, TablePermissions, TableUser} from "..";
 import { Context } from "../../context";
 
 import db from "../../../db";
+import { User } from "../../User";
 
 export const Update = {
     Mutation: {
@@ -146,6 +147,36 @@ export const Update = {
                 });
                 
                 return {id: table.id, rows: tableRows};
+            }
+            catch(error: any){
+                throw new GraphQLError(error);
+            }
+        },
+        editTableUserPermissions: async (_root: any, data: {tableId: number, userId: number, permissions: string}, context: Context): Promise<TableUser> => {
+            if(!context.auth) throw new GraphQLError('Unauthorized Access! Please login to continue.');
+            try{
+                let usrTablePrm: TablePermissions = (await db.tablePermissions.findOne({where: {tableId: data.tableId, userId: context.id}}))?.dataValues?.permissions;
+                if(!usrTablePrm?.manageUsers && !context.permissions.tables.manageUserPermissions) throw new GraphQLError('You do not have permission to manage users in this table.'); // u need admin permission or table manage user permission
+
+                let tableUser: TableUser = (await db.tablePermissions.findOne({where: {tableId: data.tableId, userId: data.userId}}))?.dataValues;
+                if(!tableUser) throw new GraphQLError('User not found in the table.');
+
+                let permissions: TablePermissions = JSON.parse(data.permissions);
+                tableUser.permissions = {
+                    writeEntry: permissions?.writeEntry || tableUser.permissions.writeEntry,
+                    manageRows: permissions?.manageRows || tableUser.permissions.manageRows,
+                    manageFields: permissions?.manageFields || tableUser.permissions.manageFields,
+                    manageTable: permissions?.manageTable || tableUser.permissions.manageTable,
+                    manageUsers: (context.permissions.tables.manageUserPermissions) ? permissions?.manageUsers : tableUser.permissions.manageUsers // Only Admins can change manageUsers permission of a table user
+                };
+
+                let tableUserResult: any = await db.tablePermissions.update({permissions: tableUser.permissions}, {where: {tableId: data.tableId, userId: data.userId}});
+                if(!tableUserResult[0]) throw new GraphQLError('Failed to update user permissions.');
+
+                let user: User = (await db.user.findByPk(data.userId))?.dataValues;
+                if(!user) throw new GraphQLError('User not found.');
+
+                return {id: user.id, username: user.username, email: user.email, permissions: tableUser.permissions};
             }
             catch(error: any){
                 throw new GraphQLError(error);

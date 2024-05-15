@@ -27,7 +27,14 @@ export function initializeTablePermissionsModel(sequelize: Sequelize){
         permissions: {
             type: DataTypes.JSON,
             allowNull: false,
-            defaultValue: `{"writeEntry":false,"manageRows":false,"manageFields":false,"manageTable":false,"manageUsers":false}`
+            defaultValue: {writeEntry:false, manageRows:false, manageFields:false, manageTable:false, manageUsers:false}
         }
+    }, {
+        indexes: [
+            {
+                unique: true,
+                fields: ['tableId', 'userId']
+            }
+        ]
     });
 }

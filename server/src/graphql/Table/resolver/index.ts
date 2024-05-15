@@ -18,7 +18,8 @@ export const resolver = {
         createTable: Create.Mutation.createTable,
         editTable: Update.Mutation.editTable,
         writeInTable: Create.Mutation.writeInTable,
-        editRows: Update.Mutation.editRows
+        editRows: Update.Mutation.editRows,
+        addTableUser: Create.Mutation.addTableUser
     },
 
     Table: {

@@ -3,10 +3,12 @@ import SqlString from "sqlstring";
 
 import { escapeIdPostgre } from "../../../lib/sqlString";
 
-import { RowsData, RowData, Table, TableField, TablePermissions, FieldData } from "..";
+import { RowsData, RowData, Table, TableField, TablePermissions, TableUser } from "..";
 import { Context } from "../../context";
 
 import db from "../../../db";
+import { User } from "../../User";
+import { UniqueConstraintError } from "sequelize";
 
 
 export const Create = {
@@ -129,6 +131,33 @@ export const Create = {
                 });
                 return {id: table.id, rows: tableRows};
             } catch (error: any) {
+                throw new GraphQLError(error);
+            }
+        },
+        addTableUser: async (_root: any, data: {tableId: number, userId: number, permissions: string}, context: Context): Promise<TableUser> => {
+            if(!context.auth) throw new GraphQLError('Unauthorized Access! Please login to continue.');
+            try{
+                let usrTablePrmResult: any = await db.tablePermissions.findOne({where: {tableId: data.tableId, userId: context.id}});
+                let usrTablePrm: TablePermissions = usrTablePrmResult?.dataValues?.permissions;
+
+                if(!context.permissions.tables.manageUserPermissions && !usrTablePrm?.manageUsers) throw new GraphQLError("You do not have permission to add users in this table."); // u need admin permission or table mange user permission
+
+                let usrResult = await db.user.findByPk(data.userId);
+                let user: User = usrResult?.dataValues;
+                if(!usrResult || !user.id) throw new GraphQLError('User not found!');
+
+                let addUsrTablePrmResult = await db.tablePermissions.create({tableId: data.tableId, userId: data.userId});
+                if(!addUsrTablePrmResult.dataValues.id) throw new GraphQLError('Failed to add a user in the table.');
+
+                return {
+                    id: user.id,
+                    username: user.username,
+                    email: user.email,
+                    permissions: addUsrTablePrmResult.dataValues.permissions
+                };
+            }
+            catch(error: any){
+                if(error instanceof UniqueConstraintError) throw new GraphQLError('User already added in the table.');
                 throw new GraphQLError(error);
             }
         }

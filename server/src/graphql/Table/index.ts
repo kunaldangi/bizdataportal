@@ -20,8 +20,8 @@ export interface TableField {
 
 export interface TableUser {
     id: number;
-    username: number;
-    email: number;
+    username: string;
+    email: string;
     permissions: TablePermissions;
 }
 

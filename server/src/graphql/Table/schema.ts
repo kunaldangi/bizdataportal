@@ -3,7 +3,6 @@ export const schema = /* GraphQL */`
         getTables: [Table]
         getTable(id: ID!): Table
         readTable(id: ID!): TableData
-
         getTableUsers(tableId: ID!): [TableUser] # u won't get admin user here
     }
 
@@ -12,6 +11,7 @@ export const schema = /* GraphQL */`
         editTable(id: ID!, table: String): Table # table is a string field of JSON (object)
         writeInTable(id: ID!, rows: String!): TableData # rows is a string field of JSON (2D array)
         editRows(id: ID!, rows: String!): TableData
+        addTableUser(tableId: ID!, userId: ID!): TableUser
     }
 
     type Table{

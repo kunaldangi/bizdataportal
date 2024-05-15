@@ -3,7 +3,7 @@ import SqlString from "sqlstring";
 
 import { escapeIdPostgre } from "../../../lib/sqlString";
 
-import { RowData, RowsData, Table, TableField, TablePermissions } from "..";
+import { RowData, RowsData, Table, TableField, TablePermissions} from "..";
 import { Context } from "../../context";
 
 import db from "../../../db";

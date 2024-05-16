@@ -2,11 +2,10 @@ import { GraphQLError } from "graphql";
 import SqlString from "sqlstring";
 
 import { escapeIdPostgre } from "../../../lib/sqlString";
+import db from "../../../db";
 
 import { RowData, RowsData, Table, TableField, TablePermissions, TableUser} from "..";
 import { Context } from "../../context";
-
-import db from "../../../db";
 import { User } from "../../User";
 
 export const Update = {

@@ -5,6 +5,7 @@ import { Context } from "../../context";
 import { Update } from "./Update";
 import { Create } from "./Create";
 import { Read } from "./Read";
+import { Delete } from "./Delete";
 
 
 export const resolver = {
@@ -20,7 +21,8 @@ export const resolver = {
         writeInTable: Create.Mutation.writeInTable,
         editRows: Update.Mutation.editRows,
         addTableUser: Create.Mutation.addTableUser,
-        editTableUserPermissions: Update.Mutation.editTableUserPermissions
+        editTableUserPermissions: Update.Mutation.editTableUserPermissions,
+        removeTableUser: Delete.Mutation.removeTableUser
     },
 
     Table: {

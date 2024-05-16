@@ -12,8 +12,8 @@ export const schema = /* GraphQL */`
         writeInTable(id: ID!, rows: String!): TableData # rows is a string field of JSON (2D array)
         editRows(id: ID!, rows: String!): TableData
         addTableUser(tableId: ID!, userId: ID!): TableUser
-        removeTableUser(tableId: ID!, userId: ID!): TableUser
         editTableUserPermissions(tableId: ID!, userId: ID!, permissions: String!): TableUser
+        removeTableUser(tableId: ID!, userId: ID!): TableUser
     }
 
     type Table{

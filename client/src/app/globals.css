@@ -1,5 +1,25 @@
+:root{
+	--primary-color: #FFC7C7;
+	--primary-color-light: #FFE2E2;
+	--primary-color-dark: #8785A2;
+
+	--primary-text-color: #989898;
+	
+	--primary-background-color: #F6F6F6;
+	--secondary-background-color: #FFFFFF;
+}
+
 * {
 	box-sizing: border-box;
 	padding: 0;
 	margin: 0;
+}
+
+html {
+	font-size: 62.5%; /* 1rem = 10px */
+}
+
+body{
+	color: var(--primary-text-color);
+	background-color: var(--primary-background-color);
 }

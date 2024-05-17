@@ -12,7 +12,6 @@ export default async function Home() {
 		}
 	 	await verifyToken(session, process.env.JWT_SESSION_SECRET || '');
 	} catch (error) {
-		console.log(error);
 		redirect("/auth/login");
 	}
 	return (

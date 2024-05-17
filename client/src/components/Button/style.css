@@ -1,0 +1,24 @@
+button{
+    margin: 5px;
+    padding: 10px 20px;
+    
+    font-size: 16px;
+    cursor: pointer;
+    
+    border: none;
+    border-radius: 10px;
+    
+    color: white;
+    background-color: var(--primary-color);
+}
+
+button:hover{
+    color: var(--primary-text-color);
+    background-color: var(--primary-color-light);
+}
+
+button:active{
+    transition: all 0.1s ease;
+    color: white;
+    background-color: var(--primary-color);
+}

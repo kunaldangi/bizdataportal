@@ -1,0 +1,26 @@
+.compErrorBox__main {
+    margin-top: 10px;
+    margin-bottom: 5px;
+
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+
+    font-size: 16px;
+    
+    border-radius: 3px;
+    background-color: #8785A2;
+    color: white;
+}
+
+.compErrorBox__msg {
+    align-self: center;
+    padding-left: 5px;
+}
+
+.compErrorBox__close {
+    cursor: pointer;
+    color: white;
+    font-size: 20px;
+    padding: 4px 5px 0px 0px;
+}

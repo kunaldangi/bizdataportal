@@ -13,6 +13,19 @@ import initializeRoutes from './routes';
 import { schema as graphqlSchema, resolver as graphqlResolver } from './graphql';
 import { setHttpContext } from "./graphql/context";
 
+
+let corsOptions = {
+    origin: function (origin: any, callback: any) {
+        if (origin === "http://localhost") {
+            callback(null, true)
+        }
+        else{
+            callback(new Error('You are not allowed to access this server!'));
+        }
+    },
+    credentials: true
+}
+
 async function main(): Promise<void> {
     const isDevMode = (process.env.SERVER_RUN_MODE === "development");
     const expressApp: Express = express(); // creating an Express server
@@ -21,13 +34,13 @@ async function main(): Promise<void> {
     await db.initialize(); // initializing the database
 
     expressApp.use(bodyParser.json()); // parsing JSON data
-    expressApp.use(cors()); // enabling CORS
+    expressApp.use(cors(corsOptions)); // enabling CORS
     expressApp.use(cookieParser()); // enabling cookie parser
 
     const apolloServer = new ApolloServer({ typeDefs: graphqlSchema, resolvers: graphqlResolver, includeStacktraceInErrorResponses: isDevMode}); // creating an Apollo Server instance
     await apolloServer.start(); // starting Apollo Server to handle GraphQL requests
 
-
+    
     initializeRoutes(expressApp); // initializing routes
 
     expressApp.use('/graphql', apolloMiddleware(apolloServer, { context: setHttpContext }, )); // adding Apollo Server to Express

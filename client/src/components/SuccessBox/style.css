@@ -1,0 +1,26 @@
+.compSuccessBox__main {
+    margin-top: 10px;
+    margin-bottom: 5px;
+
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+
+    font-size: 16px;
+    
+    border-radius: 3px;
+    background-color: #daf8d7;
+    color: #1c721e;
+}
+
+.compSuccessBox__msg {
+    align-self: center;
+    padding-left: 5px;
+}
+
+.compSuccessBox__close {
+    cursor: pointer;
+    color: #1c721e;
+    font-size: 20px;
+    padding: 4px 5px 0px 0px;
+}

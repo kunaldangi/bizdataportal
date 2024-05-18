@@ -2,8 +2,9 @@ import './style.css';
 
 import Image from 'next/image';
 
-import { LoginButton } from './LoginButton';
 import { DividerLine } from '@/components/Divider';
+import { LoginButton } from './LoginButton';
+import { GotoRegister } from './GotoRegister';
 
 export default function Page() {
     return (<>
@@ -16,9 +17,10 @@ export default function Page() {
                 <div className="main__form">
                     <input type="email" id="loginId__email" placeholder='Email' className='main__form--email' />
                     <input type="password" id="loginId__pwd" placeholder='Password' className='main__form--password' />
-                    <LoginButton />
+                    <LoginButton url={process.env.BACKEND_URL} />
                 </div>
                 <DividerLine boxClass='main__dividerBox' lineClass='main__dividerLine'><div className='main__dividerText'> OR </div></DividerLine>
+                <GotoRegister />
             </div>
         </div>
     </>);

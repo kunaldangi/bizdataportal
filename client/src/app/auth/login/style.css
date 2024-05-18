@@ -44,3 +44,16 @@ input{
     border-radius: 7px;
     border: 2px solid #80808057;
 }
+
+.main__dividerBox{
+    width: 218px !important;
+}
+
+.main__dividerLine{
+    background-color: #80808057 !important;
+}
+
+.main__dividerText{
+    margin: 0px 10px;
+    font-size: 1.2rem;
+}

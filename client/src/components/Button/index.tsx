@@ -3,5 +3,5 @@
 import "./style.css";
 
 export function Button({children, className, onClick, ...props}: {children: React.ReactNode, className: string, onClick: ()=>any, }) {
-    return (<button className={className} {...props}>{children}</button>);
+    return (<button className={className} onClick={onClick} {...props}>{children}</button>);
 }

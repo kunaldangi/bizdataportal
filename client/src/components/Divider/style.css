@@ -1,0 +1,11 @@
+.compDivider_dividerBox{
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.compDivider_dividerLine{
+    flex: 1;
+    height: 1px;
+    background-color: black;
+}

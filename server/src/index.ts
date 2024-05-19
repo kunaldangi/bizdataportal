@@ -14,9 +14,10 @@ import { schema as graphqlSchema, resolver as graphqlResolver } from './graphql'
 import { setHttpContext } from "./graphql/context";
 
 
-let corsOptions = {
+let corsOptions = { // Cross-Origin Resource Sharing (CORS) configuration
     origin: function (origin: any, callback: any) {
-        if (origin === "http://localhost") {
+        console.log("Origin: ", origin);
+        if (origin === "http://localhost" || origin === undefined) {
             callback(null, true)
         }
         else{

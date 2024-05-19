@@ -15,7 +15,7 @@ export async function verify(req: Request, res: Response){
 
     try {
         let getDbOtp: any = await db.otp?.findAll({ where: { email: otp_data.email, code: req.body.code } });
-        if(req.body.code !== getDbOtp[0]?.dataValues.code || !getDbOtp[0]?.dataValues) return res.send(JSON.stringify({ error: "Invalid OTP code." }));
+        if(parseInt(req.body.code) !== getDbOtp[0]?.dataValues.code || !getDbOtp[0]?.dataValues) return res.send(JSON.stringify({ error: "Invalid OTP code." }));
         
         let saltPass: string = bcrypt.genSaltSync(10);
         let hashPass: string = bcrypt.hashSync(otp_data.password, saltPass);

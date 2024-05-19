@@ -7,9 +7,9 @@
     align-items: center;
 }
 
-.main__container{
+.main__container--register{
     width: 500px;
-    height: 600px;
+    height: 650px;
 
     display: flex;
     flex-direction: column;

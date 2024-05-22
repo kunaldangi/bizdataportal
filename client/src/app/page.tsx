@@ -1,7 +1,15 @@
-import verifyToken from "@/lib/jwt";
+import "./style.css";
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+
+import verifyToken from "@/lib/jwt";
+
+import { HomeLayout } from "@/layouts/Home";
+import { Body } from "@/layouts/Home/Body";
+import { IndexBar } from "@/layouts/Home/Body/IndexBar";
+import { Content } from "@/layouts/Home/Body/Content";
+
 
 export default async function Home() {
 	try {	
@@ -15,6 +23,15 @@ export default async function Home() {
 		redirect("/auth/login");
 	}
 	return (
-		<div>Hello World</div>
+		<HomeLayout>
+			<Body>
+				<IndexBar>
+					<span>IndexBar</span>
+				</IndexBar>
+				<Content>
+					<span>Content</span>
+				</Content>
+			</Body>
+		</HomeLayout>
 	);
 }

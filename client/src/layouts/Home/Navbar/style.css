@@ -1,0 +1,12 @@
+.home__navbar{
+    width: 100vw;
+    height: 60px;
+    
+    display: flex;
+    justify-content: space-between;
+    /* border: 1px solid red; */
+}
+
+.home__navbar div{
+    /* border: 1px solid red; */
+}

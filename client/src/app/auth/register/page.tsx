@@ -4,8 +4,8 @@ import Image from 'next/image';
 
 import { DividerLine } from '@/components/Divider';
 
-import { RegisterForm } from './RegisterButton';
-import { GotoLogin } from './GotoLogin';
+import { RegisterForm } from './_components/RegisterButton';
+import { GotoLogin } from './_components/GotoLogin';
 
 export default function Page() {
     return (<>

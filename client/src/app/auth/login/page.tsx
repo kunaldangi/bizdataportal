@@ -3,8 +3,9 @@ import './style.css';
 import Image from 'next/image';
 
 import { DividerLine } from '@/components/Divider';
-import { LoginButton } from './LoginButton';
-import { GotoRegister } from './GotoRegister';
+
+import { LoginButton } from './_components/LoginButton';
+import { GotoRegister } from './_components/GotoRegister';
 
 export default function Page() {
     return (<>

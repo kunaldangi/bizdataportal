@@ -1,9 +1,9 @@
 import "./style.css";
 
 export function IndexBar({ children }: { children: React.ReactNode}) {
-    return (
+    return (<>
         <div className="home__indexbar">
             {children}
         </div>
-    );
+    </>);
 }

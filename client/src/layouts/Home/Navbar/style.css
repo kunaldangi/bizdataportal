@@ -1,12 +1,31 @@
 .home__navbar{
     width: 100vw;
-    height: 60px;
+    height: 75px;
+    padding: 5px;
     
     display: flex;
     justify-content: space-between;
-    /* border: 1px solid red; */
+    align-items: center;
+
+    color: white;
+    background-color: var(--secondary-color-dark);
 }
 
-.home__navbar div{
-    /* border: 1px solid red; */
+.navbar__logo{
+    margin-left: 20px;
+}
+
+.navbar__profile{
+    height: 60px;
+    width: 60px;
+    margin-right: 20px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    font-size: 2.5rem;
+    
+    border: 2px solid white;
+    border-radius: 100%;
 }

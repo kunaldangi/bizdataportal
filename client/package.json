@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@svgr/webpack": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.378.0",
     "next": "14.2.3",

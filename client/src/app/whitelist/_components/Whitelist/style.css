@@ -1,0 +1,155 @@
+.whitelist__main{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    font-size: 1.6;
+}
+
+.whitelist__title{
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 2.4rem;
+    font-weight: 600;
+
+    color: var(--primary-color-dark);
+}
+
+.whitelist__header{
+    padding: 10px;
+    display: flex;
+    justify-content: space-between
+}
+
+.whitelist__header--search{
+    padding: 5px;
+
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+
+    border: 2px solid var(--primary-border-color);
+    border-radius: 8px;
+}
+
+.whitelist__header--add{
+    margin-right: 20px;
+    padding: 7px 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    cursor: pointer;
+    background-color: var(--primary-color);
+    border-radius: 5px;
+}
+
+.whitelist__header--add:hover{
+    color: var(--primary-text-color);
+    background-color: var(--primary-color-light);
+}
+
+.whitelist__header--search input{
+    width: 100px;
+    border: none;
+    outline: none;
+}
+
+.whitelist__content{
+    padding: 10px;
+
+    display: flex;
+    flex: 1;
+}
+
+.whitelist__emailsBox{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.whitelist__emails{
+    padding: 10px 15px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    background-color: var(--primary-background-color-light);
+    border-radius: 8px;
+}
+
+.whitelist__emails--delete{
+    padding: 5px;
+
+    color: white;
+    cursor: pointer;
+    color: var(--primary-color);
+    border-radius: 5px;
+}
+
+.whitelist__emails--delete:hover{
+    background-color: var(--secondary-color);
+}
+
+.whitelist__emails--delete:active{
+    background-color: var(--primary-color-dark);
+}
+
+.whitelist__addCard{
+    padding: 50px;
+
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    box-shadow: 0px 0px 10px 0px var(--primary-border-color);
+    border-radius: 10px;
+}
+
+.whitelist__addCard--logo{
+    align-self: center;
+}
+
+.whitelist__addCard--title{
+    padding-bottom: 15px;
+    align-self: center;
+}
+
+.whitelist__addCard input{
+    padding: 10px;
+    outline: none;
+    border: 1px solid var(--primary-border-color);
+    border-radius: 5px;
+}
+
+.whitelist__addCard--add{
+    width: 45px;
+    height: 40px;
+    margin-top: 15px;
+
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    cursor: pointer;
+    background-color: var(--primary-color);
+    border-radius: 5px;
+}
+
+.whitelist__addCard--add:hover{
+    color: var(--primary-text-color);
+    background-color: var(--primary-color-light);
+}

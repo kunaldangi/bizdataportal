@@ -2,15 +2,19 @@ import "./style.css";
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import Image from "next/image";
 import { Mail, Users, Sheet } from 'lucide-react';
 
 import verifyToken from "@/lib/jwt";
 
+// --- Components ---
+import { Goto } from "@/components/Goto";
+
+// --- Layouts ---
 import { HomeLayout } from "@/layouts/Home";
 import { Body } from "@/layouts/Home/Body";
 import { IndexBar } from "@/layouts/Home/Body/IndexBar";
 import { Content } from "@/layouts/Home/Body/Content";
-import Image from "next/image";
 
 
 export default async function Home() {
@@ -24,13 +28,14 @@ export default async function Home() {
 	} catch (error) {
 		redirect("/auth/login");
 	}
+
 	return (
 		<HomeLayout>
 			<Body>
 				<IndexBar>
-					<div className="items"><Mail width={20} height={20} /> Whitelist Emails </div>
-					<div className="items"><Users width={20} height={20} /> Users  </div>
-					<div className="items"><Sheet width={20} height={20} /> Tables  </div>
+					<Goto href="/whitelist"><div className="items"><Mail width={20} height={20} /> Whitelist Emails </div></Goto>
+					<Goto href="/users"><div className="items"><Users width={20} height={20} /> Users </div></Goto>
+					<Goto href="/tables"><div className="items"><Sheet width={20} height={20} /> Tables </div></Goto> 
 				</IndexBar>
 				<Content>
 					<div className="content">

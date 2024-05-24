@@ -1,6 +1,7 @@
 :root{
 	--primary-color: #FFC7C7;
 	--primary-color-light: #FFE2E2;
+	--secondary-color: #ffecec;
 	--secondary-color-light: #fff5f5;
 	
 	--primary-color-dark: #8785A2;
@@ -10,7 +11,13 @@
 	--primary-text-color: #636363;
 	
 	--primary-background-color: #F6F6F6;
+	--primary-background-color-light: #f6f6f6a6;
 	--secondary-background-color: #FFFFFF;
+
+	--primary-border-color: #80808057;
+
+
+	/* --primary-alert-color: #e60a0a; */
 }
 
 * {

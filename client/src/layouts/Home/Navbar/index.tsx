@@ -35,6 +35,8 @@ export function Navbar() {
         else{
             setIsSmallScreen(false);
             openIndexBar();
+            let indexBar = document.getElementById("home__indexbar--display") as HTMLElement;
+            indexBar.style.position = "relative";
             isIndexBarOpen = true;
         }
     };
@@ -60,7 +62,7 @@ export function Navbar() {
                 indexBar.style.position = "absolute";
                 indexBar.style.height = "calc(100vh - 75px)";
             }
-
+            
             isIndexBarOpen = true;
         }
     }

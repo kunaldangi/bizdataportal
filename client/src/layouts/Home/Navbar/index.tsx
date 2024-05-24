@@ -1,23 +1,41 @@
 "use client";
 import "./style.css";
 
-import { AlignJustify } from 'lucide-react';
 import Image from "next/image";
 import { useEffect, useState } from "react";
+
+import { AlignJustify } from 'lucide-react';
+
+function closeIndexBar(){
+    let indexBar = document.getElementById("home__indexbar--display") as HTMLElement;
+    indexBar.style.width = "0px";
+    indexBar.style.opacity = "0";
+    indexBar.style.padding = "0px";
+}
+
+function openIndexBar(){
+    let indexBar = document.getElementById("home__indexbar--display") as HTMLElement;
+    indexBar.style.width = "180px";
+    indexBar.style.opacity = "1";
+    indexBar.style.padding = "10px";
+}
 
 let isIndexBarOpen = false;
 export function Navbar() {
     const [isSmallScreen, setIsSmallScreen] = useState(false);
-    
+
     const handleResize = () => {
-        let indexBar = document.querySelector(".home__indexbar") as HTMLElement;
         if(window.innerWidth <= 768){
-            if(!isIndexBarOpen) indexBar.style.display = 'none'; // if index bar is open, don't show it
+            if(isIndexBarOpen){
+                closeIndexBar();
+                isIndexBarOpen = false;
+            }
             setIsSmallScreen(true);
-        } 
+        }
         else{
-            indexBar.style.display = 'block';
             setIsSmallScreen(false);
+            openIndexBar();
+            isIndexBarOpen = true;
         }
     };
 
@@ -31,17 +49,19 @@ export function Navbar() {
     }, []);
 
     function handleShowIndexBar() {
-        let indexBar = document.querySelector(".home__indexbar") as HTMLElement;
-        let display = window.getComputedStyle(indexBar).display;
-        if(display === 'block') {
-            indexBar.style.display = 'none';
+        if(isIndexBarOpen){
+            closeIndexBar();
             isIndexBarOpen = false;
-            return;
         }
-        if(display === 'none'){
-            indexBar.style.display = 'block';
+        else{
+            openIndexBar();
+            if(isSmallScreen){
+                let indexBar = document.getElementById("home__indexbar--display") as HTMLElement;
+                indexBar.style.position = "absolute";
+                indexBar.style.height = "calc(100vh - 75px)";
+            }
+
             isIndexBarOpen = true;
-            return;
         }
     }
 

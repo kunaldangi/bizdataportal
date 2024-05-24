@@ -28,7 +28,7 @@ export default async function Home() {
 		<HomeLayout>
 			<Body>
 				<IndexBar>
-					<div className="items"><Mail width={20} height={20} /> Whitelist Emails  </div>
+					<div className="items"><Mail width={20} height={20} /> Whitelist Emails </div>
 					<div className="items"><Users width={20} height={20} /> Users  </div>
 					<div className="items"><Sheet width={20} height={20} /> Tables  </div>
 				</IndexBar>

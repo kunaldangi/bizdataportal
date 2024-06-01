@@ -1,4 +1,5 @@
 .home__indexbar{
+    height: calc(100vh - 75px);
     background-color: var(--primary-background-color);
     transition: all 700ms ease-in-out;
 }

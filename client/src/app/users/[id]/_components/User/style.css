@@ -1,0 +1,140 @@
+.user__main{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.user__title{
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    
+    font-size: 2.4rem;
+    font-weight: 600;
+    
+    color: var(--primary-color-dark);
+}
+
+.user__header{
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.user__header div{
+    margin: 0px 5px;
+    padding: 7px 10px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    color: var(--primary-color);
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.user__header div:hover{
+    color: var(--primary-text-color);
+}
+
+.user__header--delete{
+    color: white !important;
+    background-color: var(--primary-color);
+}
+
+.user__header--delete:hover{
+    color: var(--primary-text-color) !important;
+    background-color: var(--primary-color-light);
+}
+
+.user__content{
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+    
+}
+
+.user__content--field{
+    display: flex;
+    gap: 10px;
+    padding: 2px 0px;
+}
+
+.user__permTable--title, .user__permUser--title{
+    padding: 10px 0px;
+    
+    font-size: 1.8rem;
+    font-weight: 600;
+    
+    color: var(--primary-color-dark);
+
+}
+
+.user__content--field{
+    display: flex;
+}
+
+.user__perm{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 2px 0px;
+}
+
+
+
+
+
+.user__perm--switch {
+    position: relative;
+    display: inline-block;
+    width: 42px;
+    height: 24px;
+}
+
+.user__perm--switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.user__perm--slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.user__perm--slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+}
+
+.user__perm--slider.user__perm--round {
+    border-radius: 24px;
+}
+
+.user__perm--slider.user__perm--round:before {
+    border-radius: 50%;
+}
+
+input:checked + .user__perm--slider {
+    background-color: #2196F3;
+}
+
+input:checked + .user__perm--slider:before {
+    transform: translateX(18px);
+}

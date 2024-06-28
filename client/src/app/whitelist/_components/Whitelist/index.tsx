@@ -7,7 +7,8 @@ import { Mail, MailPlus, Search, Trash2, CircleX } from "lucide-react";
 
 import { ErrorBox } from "@/components/ErrorBox";
 import { SuccessBox } from "@/components/SuccessBox";
-import { SuccessToast } from "@/components/SuccessToast";
+import {  } from "@/components/SuccessToast";
+import { ErrorToast } from "@/components/ErrorToast";
 
 export function Whitelist({url}: {url: string}) {
     const [whitelist, setWhitelist] = useState([]);
@@ -71,7 +72,7 @@ export function Whitelist({url}: {url: string}) {
 
         let data = await response.json(); data = data.data.deleteWhitelistEmail;
         if(data.status === "error"){
-            setAddError(data.message);
+            setDeleteError(data.message);
             return;
         }
         if(data.status === "ok"){
@@ -79,6 +80,7 @@ export function Whitelist({url}: {url: string}) {
             newWhitelist.splice(index, 1);
             setWhitelist([...newWhitelist] as any);
             setDeleteSuccess(data.message);
+            return;
         }
     }
 
@@ -164,5 +166,6 @@ export function Whitelist({url}: {url: string}) {
         </div>
 
         { deleteSuccess && <SuccessToast success={deleteSuccess} closeSuccess={()=>{setDeleteSuccess(null)}} />}
+        { deleteError && <ErrorToast error={deleteError} closeError={()=>{setDeleteError(null)}} />}
     </>)
 }

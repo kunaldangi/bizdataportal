@@ -1,4 +1,4 @@
-.compSuccessToast__main{
+.compErrorToast__main{
     min-height: 75px;
     max-width: 300px;
 
@@ -11,15 +11,15 @@
     align-items: center;
     gap: 10px;
 
-    background-color: #28a745;
+    background-color: #ff4d4d;
     color: white;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     transition: all 0.5s ease-in-out;
-    animation: 1.5s showSuccessToast forwards;
+    animation: 1.5s showErrorToast forwards;
 }
 
-@keyframes showSuccessToast{
+@keyframes showErrorToast{
     0%{
         opacity: 0;
         top: 50%;
@@ -30,7 +30,7 @@
     }
 }
 
-.compSuccessToast__close{
+.compErrorToast__close{
     position: absolute;
     top: 7px;
     right: 5px;
@@ -42,10 +42,10 @@
     color: rgba(255, 255, 255, 0.7); 
 }
 
-.compSuccessToast__close:hover{
+.compErrorToast__close:hover{
     color: white;
 }
 
-.compSuccessToast__main:hover .compSuccessToast__close{
+.compErrorToast__main:hover .compErrorToast__close{
     display: inline;
 }

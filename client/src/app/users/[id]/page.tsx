@@ -1,5 +1,4 @@
 import "./style.css";
-
 import { Mail, Sheet, Users as UsersLogo } from "lucide-react";
 
 import { HomeLayout } from "@/layouts/Home";
@@ -8,11 +7,12 @@ import { IndexBar } from "@/layouts/Home/Body/IndexBar";
 import { Content } from "@/layouts/Home/Body/Content";
 
 import { Goto } from "@/components/Goto";
-import { Users } from "./_components/Users";
+import { User } from "./_components/User";
 
-export default async function Page(){
+export default function Page({ params }: { params: {id: string} }) {
+    console.log(params)
     return (
-		<HomeLayout>
+        <HomeLayout>
 			<Body>
 				<IndexBar>
 					<Goto href="/whitelist"><div className="items"><Mail width={20} height={20} /> Whitelist Emails </div></Goto>
@@ -20,9 +20,9 @@ export default async function Page(){
 					<Goto href="/tables"><div className="items"><Sheet width={20} height={20} /> Tables </div></Goto>
 				</IndexBar>
 				<Content>
-                    <Users url={`${process.env.BACKEND_URL}`} />
+                    <User url={`${process.env.BACKEND_URL}`} id={params.id} />
 				</Content>
 			</Body>
 		</HomeLayout>
-	);
+    )
 }

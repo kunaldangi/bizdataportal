@@ -39,7 +39,7 @@ export function initializeUserModel(sequelize: Sequelize){
         level: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            defaultValue: 1
+            defaultValue: 0
         },
         permissions: {
             type: DataTypes.JSON,

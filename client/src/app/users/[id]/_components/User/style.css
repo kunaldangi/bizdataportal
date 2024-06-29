@@ -59,6 +59,7 @@
 
 .user__content--field{
     display: flex;
+    align-items: center;
     gap: 10px;
     padding: 2px 0px;
 }
@@ -70,11 +71,12 @@
     font-weight: 600;
     
     color: var(--primary-color-dark);
-
 }
 
-.user__content--field{
-    display: flex;
+.user__content--input{
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid var(--primary-border-color);
 }
 
 .user__perm{
@@ -87,7 +89,7 @@
 
 
 
-
+/* ----- SWITCH BUTTON CSS ----- */
 .user__perm--switch {
     position: relative;
     display: inline-block;

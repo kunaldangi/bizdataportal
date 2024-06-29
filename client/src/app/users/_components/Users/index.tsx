@@ -1,7 +1,7 @@
 "use client";
 import "./style.css";
 
-import { Search, Users as UsersLogo } from "lucide-react";
+import { Search, User, Users as UsersLogo } from "lucide-react";
 
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react";
@@ -54,7 +54,7 @@ export function Users({url}: {url: string}){
             <div className="users__content">
                 <div><div className="users__listBox">
                     {users.map((user: any, index: number) => {
-                        return (<div className="users__item" key={user.id} onClick={()=>router.push(`/users/${user.id}`)}>{user.username}</div>)
+                        return (<div className="users__item" key={user.id} onClick={()=>router.push(`/users/${user.id}`)}> <User /> {user.username}</div>)
                     })}
                 </div></div>
             </div>

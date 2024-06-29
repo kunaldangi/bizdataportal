@@ -22,7 +22,7 @@ export async function verify(req: Request, res: Response){
     
         await db.otp?.destroy({ where: { email: otp_data.email } });
         await db.whitelistEmail?.destroy({ where: { email: otp_data.email } });
-        let userData: any = await db.user?.create({ username: otp_data.username, email: otp_data.email, password: hashPass, level: 1 });
+        let userData: any = await db.user?.create({ username: otp_data.username, email: otp_data.email, password: hashPass, level: 0 });
     
         if(userData?.dataValues.email){
             res.clearCookie('otp_token');

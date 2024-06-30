@@ -7,7 +7,7 @@ import { Mail, MailPlus, Search, Trash2, CircleX } from "lucide-react";
 
 import { ErrorBox } from "@/components/ErrorBox";
 import { SuccessBox } from "@/components/SuccessBox";
-import {  } from "@/components/SuccessToast";
+import { SuccessToast } from "@/components/SuccessToast";
 import { ErrorToast } from "@/components/ErrorToast";
 
 export function Whitelist({url}: {url: string}) {

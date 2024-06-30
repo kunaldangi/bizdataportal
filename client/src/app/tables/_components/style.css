@@ -1,0 +1,116 @@
+.tables__main{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    font-size: 1.6;
+}
+
+.tables__title{
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 2.4rem;
+    font-weight: 600;
+
+    color: var(--primary-color-dark);
+}
+
+.tables__header{
+    padding: 10px;
+    display: flex;
+    justify-content: space-between
+}
+
+.tables__header--search{
+    padding: 5px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    border: 2px solid var(--primary-border-color);
+    border-radius: 8px;
+}
+
+.tables__header--add{
+    margin-right: 20px;
+    padding: 7px 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+    color: var(--primary-color);
+    border-radius: 5px;
+}
+
+.tables__header--add:hover{
+    color: var(--primary-text-color);
+}
+
+.tables__header--search input{
+    width: 100px;
+    border: none;
+    outline: none;
+}
+
+.tables__content{
+    height: calc(100vh - 220px); /* Total Screen size - relative height */
+    padding: 10px;
+
+    display: flex;
+    /* flex: 1; */
+    overflow-y: scroll;
+}
+
+.tables__content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.tables__content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.tables__content::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: var(--primary-scroll-color);
+}
+
+.tables__namesBox{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tables__names{
+    padding: 10px 15px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    background-color: var(--primary-background-color-light);
+    border-radius: 8px;
+}
+
+.tables__names--delete{
+    margin-left: 25px;
+    
+    color: white;
+    cursor: pointer;
+    color: var(--primary-color);
+    border-radius: 5px;
+}
+
+.tables__names--delete:hover{
+    color: var(--secondary-color);
+}
+
+.tables__names--delete:active{
+    color: var(--primary-color-dark);
+}

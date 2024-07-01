@@ -94,6 +94,7 @@
     align-items: center;
     gap: 10px;
 
+    cursor: pointer;
     background-color: var(--primary-background-color-light);
     border-radius: 8px;
 }
@@ -113,4 +114,114 @@
 
 .tables__names--delete:active{
     color: var(--primary-color-dark);
+}
+
+.tables__dropdown{
+    padding: 10px 15px;
+    
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--primary-background-color);
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.tables__dropdown--item{
+    padding: 7px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 5px;
+}
+
+.tables__dropdown--item:hover{
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.tables__createTable--show{
+    display: flex !important;
+}
+
+.tables__createTable{
+    display: none;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.tables__createTable--main{
+    padding: 50px;
+
+    display: flex;
+    flex-direction: column;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    background-color: white;
+    box-shadow: 0px 0px 10px 0px var(--primary-border-color);
+    border-radius: 10px;
+}
+
+.tables__createTable--close{
+    margin-top: -30px;
+    margin-right: -30px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.tables__createTable--close svg:hover{
+    color: var(--primary-color-light);
+}
+
+.tables__createTable--close svg:active{
+    color: var(--primary-color);
+}
+
+.tables__createTable--logo{
+    align-self: center;
+}
+
+.tables__createTable--title{
+    padding-bottom: 15px;
+    align-self: center;
+}
+
+.tables__createTable input{
+    padding: 10px;
+    outline: none;
+    border: 1px solid var(--primary-border-color);
+    border-radius: 5px;
+}
+
+.tables__createTable--add{
+    width: 45px;
+    height: 40px;
+    margin-top: 15px;
+
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    cursor: pointer;
+    background-color: var(--primary-color);
+    border-radius: 5px;
+}
+
+.tables__createTable--add:hover{
+    color: var(--primary-text-color);
+    background-color: var(--primary-color-light);
 }

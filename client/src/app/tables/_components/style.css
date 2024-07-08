@@ -159,6 +159,8 @@
 }
 
 .tables__createTable--main{
+    height: 80vh;
+    width: 70vw;
     padding: 50px;
 
     display: flex;
@@ -205,6 +207,13 @@
     border-radius: 5px;
 }
 
+.tables__createTable select, .tables__createTable option{
+    padding: 10px;
+    outline: none;
+    border: 1px solid var(--primary-border-color);
+    border-radius: 5px;
+}
+
 .tables__createTable--add{
     width: 45px;
     height: 40px;
@@ -224,4 +233,61 @@
 .tables__createTable--add:hover{
     color: var(--primary-text-color);
     background-color: var(--primary-color-light);
+}
+
+#id_tables__createTable--name{
+    max-width: 150px;
+}
+
+.tables__createTable--fields{
+    margin-top: 5px;
+    overflow: scroll;
+}
+
+.tables__createTable--fields::-webkit-scrollbar {
+    width: 3px;
+}
+
+.tables__createTable--fields::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.tables__createTable--fields::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: var(--primary-scroll-color);
+}
+
+.createTable__fields{
+    margin-top: 20px;
+    
+    display: inline-flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.createTable__fields--title{
+    font-weight: 600;
+    color: var(--primary-color-dark);
+    align-self: center;
+}
+
+.tables__createTable--field{
+    padding: 15px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    border-radius: 15px;
+    border: 1px solid var(--primary-border-color);
+}
+
+.tables__createTable--field svg{
+    align-self: end;
+}
+
+@media screen and (max-width: 768px){
+    .tables__createTable--main{
+        width: 100vw;
+    }
 }

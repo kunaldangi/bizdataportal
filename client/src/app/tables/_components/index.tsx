@@ -161,7 +161,7 @@ export function Tables({url}: {url: string}) {
             <div className="tables__content">
                 <div><div className="tables__namesBox">
                     {tablesList.map((table: any) => {
-                        return (<div className="tables__names" key={table.id} id={table.id} > <Sheet height={21} width={21} /> {table.name} <Trash2 className="tables__names--delete" height={25} width={25} onClick={(e)=>{}} /></div>)
+                        return (<div className="tables__names" key={table.id} id={table.id} > <Sheet height={21} width={21} /> {table.name} <Trash2 className="tables__names--delete" height={25} width={25} onClick={()=>{}} /></div>)
                     })}
                 </div></div>
             </div>

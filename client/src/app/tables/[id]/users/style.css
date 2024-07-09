@@ -1,0 +1,19 @@
+.items{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 10px;
+
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    border-radius: 10px;
+
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+
+.items:hover{
+    color: #FFE2E2;
+    background-color: var(--secondary-background-color);
+}

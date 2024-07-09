@@ -162,11 +162,11 @@ export const Update = {
 
                 let permissions: TablePermissions = JSON.parse(data.permissions);
                 tableUser.permissions = {
-                    writeEntry: permissions?.writeEntry || tableUser.permissions.writeEntry,
-                    manageRows: permissions?.manageRows || tableUser.permissions.manageRows,
-                    manageFields: permissions?.manageFields || tableUser.permissions.manageFields,
-                    manageTable: permissions?.manageTable || tableUser.permissions.manageTable,
-                    manageUsers: (context.permissions.tables.manageUserPermissions) ? permissions?.manageUsers : tableUser.permissions.manageUsers // Only Admins can change manageUsers permission of a table user
+                    writeEntry: permissions.hasOwnProperty("writeEntry") ? permissions?.writeEntry : tableUser.permissions.writeEntry,
+                    manageRows: permissions.hasOwnProperty("manageRows") ? permissions?.manageRows : tableUser.permissions.manageRows,
+                    manageFields: permissions.hasOwnProperty("manageFields") ? permissions?.manageFields : tableUser.permissions.manageFields,
+                    manageTable: permissions.hasOwnProperty("manageTable") ? permissions?.manageTable : tableUser.permissions.manageTable,
+                    manageUsers: (context.permissions.tables.manageUserPermissions) ? (permissions.hasOwnProperty("manageTable") ? permissions?.manageUsers : tableUser.permissions.manageUsers ) : tableUser.permissions.manageUsers // Only Admins can change manageUsers permission of a table user
                 };
 
                 let tableUserResult: any = await db.tablePermissions.update({permissions: tableUser.permissions}, {where: {tableId: data.tableId, userId: data.userId}});

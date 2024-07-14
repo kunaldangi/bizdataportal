@@ -9,7 +9,7 @@ A centralized data management web app that manages data using dynamic tables wit
 - Export tables as XLSX files.
 
 ## Documentation
-Please head to [here](https://github.com/kunaldangi/bizdataportal/blob/main/docs/readme.md)
+Please head to [here](https://github.com/kunaldangi/bizdataportal/blob/8e9f7440434aa8f10c91346f6493ada672da94dd/docs/readme.md)
 
 ## How to run?
 

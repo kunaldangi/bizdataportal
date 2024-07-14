@@ -19,6 +19,9 @@ export function Whitelist({url}: {url: string}) {
     const [deleteError, setDeleteError] = useState(null);
     const [deleteSuccess, setDeleteSuccess] = useState(null);
 
+    const [whitelistEmailError, setWhitelistEmailError] = useState(null);
+    const [whitelistEmailSuccess, setWhitelistEmailSuccess] = useState(null);
+
     useEffect(() => {
         getWhitelist(url);
     }, []);
@@ -43,8 +46,12 @@ export function Whitelist({url}: {url: string}) {
         });
     
         let data = await response.json();
+        if(data.errors){
+            setWhitelistEmailError(data.errors[0].message);
+        }
         if(data.data.getWhitelistEmails){
             setWhitelist(data.data.getWhitelistEmails);
+            setWhitelistEmailSuccess("Whitelist emails fetched successfully" as any);
         }
     }
 
@@ -167,5 +174,8 @@ export function Whitelist({url}: {url: string}) {
 
         { deleteSuccess && <SuccessToast success={deleteSuccess} closeSuccess={()=>{setDeleteSuccess(null)}} />}
         { deleteError && <ErrorToast error={deleteError} closeError={()=>{setDeleteError(null)}} />}
+
+        { whitelistEmailError && <ErrorToast error={whitelistEmailError} closeError={()=>{setWhitelistEmailError(null)}} />}
+        { whitelistEmailSuccess && <SuccessToast success={whitelistEmailSuccess} closeSuccess={()=>{setWhitelistEmailSuccess(null)}} />}
     </>)
 }

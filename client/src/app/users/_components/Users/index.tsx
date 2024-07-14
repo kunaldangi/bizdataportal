@@ -1,14 +1,19 @@
 "use client";
+import { ErrorToast } from "@/components/ErrorToast";
 import "./style.css";
 
 import { Search, User, Users as UsersLogo } from "lucide-react";
 
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react";
+import { SuccessToast } from "@/components/SuccessToast";
 
 export function Users({url}: {url: string}){
     const router = useRouter();
     const[users, setUsers] = useState([]);
+
+    const [usersError, setUsersError] = useState(null);
+    const [usersSuccess, setUsersSuccess] = useState(null);
 
     useEffect(() => {
         getUsers();
@@ -33,16 +38,21 @@ export function Users({url}: {url: string}){
             })
         });
 
-        let data = await response.json(); data = data.data.getUsers;
-        if(data){
+        let data = await response.json(); 
+        if(data.errors){
+            setUsersError(data.errors[0].message);
+        }
+        if(data.data.getUsers){
+            data = data.data.getUsers;
             setUsers(data);
+            setUsersSuccess("Users fetched successfully" as any);
         }
         if(!data){
             setUsers([]);
         }
     }
 
-    return (
+    return (<>
         <div className="users__main">
             <div className="users__title"><UsersLogo width={32} height={32} /> USERS</div>
             <div className="users__header">
@@ -59,5 +69,8 @@ export function Users({url}: {url: string}){
                 </div></div>
             </div>
         </div>
-    );
+
+        { usersError && <ErrorToast error={usersError} closeError={()=>{setUsersError(null)}} />}
+        { usersSuccess && <SuccessToast success={usersSuccess} closeSuccess={()=>{setUsersSuccess(null)}} />}
+    </>);
 }

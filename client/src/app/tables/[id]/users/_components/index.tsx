@@ -250,7 +250,6 @@ export function TableUsers({url, id}: {url: string, id: string}){
                                         <Switch switchId="id__userPerm--writeEntry" check={user.permissions.writeEntry} disabled={!edit} switchClass="user__perm--switch" sliderClass="user__perm--slider user__perm--round" onSwitchChange={(e) => {
                                             let newTableUsers = tableUsers; newTableUsers[index].permissions.writeEntry = ((e.target as HTMLInputElement)?.checked); setTableUsers([...newTableUsers]);
                                         }} />
-                                        {user.permissions.writeEntry ? "true" : "false"}
                                     </div>
                                     <div className="user__field">
                                         <div className="user__title">Manage Rows</div>

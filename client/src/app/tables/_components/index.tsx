@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import { DropdownMenu } from "@/components/DropdownMenu";
 import { ErrorBox } from "@/components/ErrorBox";
 import { SuccessBox } from "@/components/SuccessBox";
+import { ErrorToast } from "@/components/ErrorToast";
+import { SuccessToast } from "@/components/SuccessToast";
 
 export function Tables({url}: {url: string}) {
     const router = useRouter();
@@ -19,6 +21,9 @@ export function Tables({url}: {url: string}) {
 
     const [createSuccess, setCreateSuccess] = useState(null);
     const [createError, setCreateError] = useState(null);
+
+    const [tablesError, setTablesError] = useState(null);
+    const [tablesSuccess, setTablesSuccess] = useState(null);
 
     useEffect(()=>{
         getTablesList(url);
@@ -54,8 +59,12 @@ export function Tables({url}: {url: string}) {
         });
     
         let data = await response.json();
+        if(data.errors){
+            setTablesError(data.errors[0].message);
+        }
         if(data.data.getTables){
             setTablesList(data.data.getTables);
+            setTablesSuccess("Tables fetched successfully!" as any);
         }
     }
 
@@ -211,5 +220,8 @@ export function Tables({url}: {url: string}) {
                 <div className="tables__createTable--add" title="Add whitelist email" onClick={()=>{onTableCreate()}}><Save width={26} height={26} /></div>
             </div>
         </div>
+
+        {tablesError && <ErrorToast error={tablesError} closeError={()=>{setTablesError(null)}} />}
+        {tablesSuccess && <SuccessToast success={tablesSuccess} closeSuccess={()=>{setTablesSuccess(null)}} />}
     </>);
 }

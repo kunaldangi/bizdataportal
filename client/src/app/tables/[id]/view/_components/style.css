@@ -81,5 +81,34 @@
     padding: 10px;
     text-align: center;
     max-width: 150px;
+    max-height: 45px;
     overflow: scroll;
+}
+
+.table__items::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+}
+
+.table__items::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.table__items::-webkit-scrollbar-thumb {
+    cursor: pointer;
+
+    border-radius: 10px;
+    background: var(--primary-scroll-color);
+}
+
+.table__items--id{
+    background-color: #fbfbfb;
+}
+
+.table__add{
+    color: var(--primary-color);
+}
+
+.table__add:hover{
+    color: var(--primary-text-color);
 }

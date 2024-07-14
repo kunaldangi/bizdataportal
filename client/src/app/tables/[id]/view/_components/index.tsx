@@ -1,7 +1,7 @@
 "use client";
 import "./style.css";
 
-import { Pencil, Sheet, Trash2 } from "lucide-react";
+import { Pencil, Save, Sheet, SquarePlus, Trash2 } from "lucide-react";
 
 import { useEffect, useState } from "react";
 
@@ -13,6 +13,9 @@ export function TableView({url, id}: {url: string, id: string}) {
 
     const [tableInfo, setTableInfo] = useState(null as any);
     const [tableData, setTableData] = useState(null as any);
+
+    const [isAddRow, setIsAddRow] = useState(false);
+    const [addRow, setAddRow] = useState(null as any);
 
     const [edit, setEdit] = useState(false);
 
@@ -59,6 +62,7 @@ export function TableView({url, id}: {url: string, id: string}) {
             setTableViewError(data.errors[0].message);
         }
         if(data.data.readTable){
+            data.data.readTable.rows.reverse();
             setTableData(data.data.readTable.rows);
             setTableViewSuccess("Table data loaded successfully!" as any);
         }
@@ -103,8 +107,74 @@ export function TableView({url, id}: {url: string, id: string}) {
         if(data.data.getTable){
             setTableInfo(data.data.getTable);
             setTableViewSuccess("Table info loaded successfully!" as any);
+        }   
+    }
+
+    async function addNewRow(){
+        let newRow = tableInfo.fields.map((field: any, index: number) => { 
+            return {
+                fieldId: field.id,
+                value: field.defaultValue
+            }
+        });
+
+        setAddRow(newRow);
+        setIsAddRow(true);
+    }
+
+    async function saveAddRow(){
+        // console.log(JSON.stringify([addRow]));
+
+        let newRow = [];
+        for(let i = 0; i < addRow.length; i++){
+            if(tableInfo.fields[i].dataType === "number"){
+                newRow.push({
+                    fieldId: addRow[i].fieldId,
+                    value: parseInt(addRow[i].value)
+                })
+            }
         }
-        
+
+        let response = await fetch(`${url}/graphql`, {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                query: `
+                    mutation($id: ID!, $rows: String!){
+                        writeInTable(id: $id, rows: $rows){
+                            id
+                            rows{
+                                rowId
+                                fieldId
+                                title
+                                value
+                                createdat
+                                updatedat
+                            }
+                        }
+                    }
+                `,
+                variables: {
+                    id: id,
+                    rows: JSON.stringify([newRow])
+                }
+            })
+        });
+
+        let data = await response.json();
+        if(data.errors){
+            console.log(data.errors);
+            setTableViewError(data.errors[0].message);
+        }
+        if(data.data.writeInTable){
+            setTableData([...tableData, data.data.writeInTable.rows[0]]); // Because we are adding only one row at a time.
+            setTableViewSuccess("New row added successfully!" as any);
+            setAddRow(null);
+            setIsAddRow(false);
+        }
     }
 
     return (<>
@@ -129,15 +199,27 @@ export function TableView({url, id}: {url: string, id: string}) {
                         
                         { tableData && 
                             tableData.map((row: any, index: number) => {
-                                console.log(row);
-                                let rows = [<div className="table__items">{row[0].rowId}</div>];
+                                let rows = [<div key={`id${(row[0].fieldId - 1)}`} className={"table__items table__items--id"} id={`id_tableRowID__${row[0].rowId}`}>{row[0].rowId}</div>];
                                 let newRows =  row.map((field: any, index: number) => {
-                                    return (<div key={field.fieldId} className="table__items">{field.value}</div>)
+                                    return (<input key={`${field.fieldId + index}`} className="table__items" id={`id_cell__${field.rowId}${field.fieldId}`} value={field.value} disabled/>)
                                 })
                                 rows = rows.concat(newRows);
                                 return rows;
                             })
                         }
+
+                        {/* New added rows */}
+                        { addRow && <div className={"table__items table__items--id"}> </div>}
+                        {   addRow && addRow.map((row: any, index: number) => {
+                                return (<input key={`addRow__${index}`} className="table__items table__items--addRow" id={`id_addRow__${row.fieldId}`} onChange={(e)=>{
+                                    let newRow = addRow;
+                                    newRow[index].value = e.target.value;
+                                    setAddRow([...newRow]);
+                                }} />)
+                            })
+                        }
+
+                        { isAddRow ? <span className="table__add" onClick={saveAddRow}><Save /></span> : <span className="table__add" onClick={addNewRow}><SquarePlus /></span> }
                     </div>
                 }
             </div>

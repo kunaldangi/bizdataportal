@@ -1,7 +1,9 @@
 "use client";
 import "./style.css";
 
-import { Pencil, Save, Sheet, SquarePlus, Trash2 } from "lucide-react";
+import XLSX from "xlsx";
+
+import { FileDown, Pencil, Save, Sheet, SquarePlus, Trash2 } from "lucide-react";
 
 import { useEffect, useState } from "react";
 
@@ -177,12 +179,38 @@ export function TableView({url, id}: {url: string, id: string}) {
         }
     }
 
+    async function downloadTableAsSheet(){
+        let fields = ["ID"];
+        let newFields = tableInfo.fields.map((field: any) => field.title);
+        fields = fields.concat(newFields);
+
+        let rows = tableData.map((row: any) => {
+            let fieldsObj: any = {};
+            fieldsObj["ID"] = row[0].rowId;
+            for(let i = 0; i < row.length; i++){
+                fieldsObj[row[i].title] = row[i].value;
+            }
+            return fieldsObj;
+        });
+
+        const worksheet = XLSX.utils.json_to_sheet(rows);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Dates-UnderDevelopment");
+
+        XLSX.utils.sheet_add_aoa(worksheet, [fields], { origin: "A1" });
+
+        XLSX.writeFile(workbook, `${tableInfo.name}.xlsx`, { compression: true });
+    }
+
     return (<>
         <div className="tableView__main">
             <div className="tableView__title"><Sheet />TABLE VIEW</div>
             <div className="tableView__header">
                 <div className="tableUsers__header--edit">
                     {edit ? <> </> : <Pencil width={25} height={25} onClick={()=>{setEdit(true)}} />}
+                </div>
+                <div className="tableView__header--file" title="Download table as xlsx sheet."> 
+                    <FileDown width={26} height={26} onClick={downloadTableAsSheet} />
                 </div>
                 <div className="tableView__header--add" title="Add a user in table." onClick={()=>{}}>
                     <Trash2 width={26} height={26} onClick={()=>{}} />

@@ -12,6 +12,8 @@ A centralized data management web app that manages data using dynamic tables wit
 - Tables are fully dynamic, allowing you to add or remove fields at any time.
 - Export tables as XLSX files.
 
+### Demo
+[Video](https://www.youtube.com/watch?v=z89B0A68fzk)
 ## Documentation
 Please head to [here](https://github.com/kunaldangi/bizdataportal/blob/3efb4093663f404cb3d21b4ab99706333490a01b/docs/readme.md)
 

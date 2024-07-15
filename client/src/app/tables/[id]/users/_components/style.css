@@ -79,31 +79,38 @@
     border: 1px solid var(--primary-border-color);
 }
 
-.user__actions{
+.tableUser__actions{
     align-self: flex-end;
     
     display: flex;
     gap: 10px;
 }
 
-.user__field{
+.tableUser__field{
     display: flex;
     align-items: center;
     gap: 7px;
 }
 
-.user__input{
+.tableUser__input{
     padding: 5px;
     border-radius: 5px;
     border: 1px solid var(--primary-border-color);
 }
 
-.user__perm--title{
+.tableUser__perm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 2px 0px;
+}
+
+.tableUser__perm--title{
     color: var(--primary-color-dark);
     font-weight: 600;
 }
 
-.user__perm--content{
+.tableUser__perm--content{
     padding-left: 10px;
     display: flex;
     flex-direction: column;

@@ -222,55 +222,55 @@ export function TableUsers({url, id}: {url: string, id: string}){
                     { tableUsers.map((user: any, index: number)=>{
                         console.log(index, user.username, user.permissions.writeEntry);
                         return (<div key={index} className="tableUsers__user">
-                            <div className="user__actions"> 
+                            <div className="tableUser__actions"> 
                                 {edit && <Save width={18} height={18} onClick={()=>{saveTableUsers(user, index)}} />}
                                 <Trash2 width={18} height={18} onClick={()=>{removeTableUser(user.id, index)}} />
                             </div>
-                            <div className="user__field">
-                                <div className="user__title">ID</div>
-                                <input className="user__input" type="text" value={user.id} disabled />
+                            <div className="tableUser__field">
+                                <div className="tableUser__title">ID</div>
+                                <input className="tableUser__input" type="text" value={user.id} disabled />
                             </div>
-                            <div className="user__field">
-                                <div className="user__title">Username</div>
-                                <input className="user__input" type="text" value={user.username} disabled />
+                            <div className="tableUser__field">
+                                <div className="tableUser__title">Username</div>
+                                <input className="tableUser__input" type="text" value={user.username} disabled />
                             </div>
-                            <div className="user__field">
-                                <div className="user__title">Email</div>
-                                <input className="user__input" type="text" value={user.email} disabled />
+                            <div className="tableUser__field">
+                                <div className="tableUser__title">Email</div>
+                                <input className="tableUser__input" type="text" value={user.email} disabled />
                             </div>
-                            <div className="user__perm">
-                                <div className="user__perm--title">Permissions</div>
-                                <div className="user__perm--content">
-                                    <div className="user__field">
-                                        <div className="user__title">View Table</div>
+                            <div className="tableUser__perm">
+                                <div className="tableUser__perm--title">Permissions</div>
+                                <div className="tableUser__perm--content">
+                                    <div className="tableUser__field">
+                                        <div className="tableUser__title">View Table</div>
                                         <Switch switchId="id__userPerm--viewTable" check={true} disabled={true} switchClass="user__perm--switch" sliderClass="user__perm--slider user__perm--round" onSwitchChange={(e) => {}} />
                                     </div>
-                                    <div className="user__field">
-                                        <div className="user__title">Write Entry</div>
+                                    <div className="tableUser__field">
+                                        <div className="tableUser__title">Write Entry</div>
                                         <Switch switchId="id__userPerm--writeEntry" check={user.permissions.writeEntry} disabled={!edit} switchClass="user__perm--switch" sliderClass="user__perm--slider user__perm--round" onSwitchChange={(e) => {
                                             let newTableUsers = tableUsers; newTableUsers[index].permissions.writeEntry = ((e.target as HTMLInputElement)?.checked); setTableUsers([...newTableUsers]);
                                         }} />
                                     </div>
-                                    <div className="user__field">
-                                        <div className="user__title">Manage Rows</div>
+                                    <div className="tableUser__field">
+                                        <div className="tableUser__title">Manage Rows</div>
                                         <Switch switchId="id__userPerm--manageRows" check={user.permissions.manageRows} disabled={!edit} switchClass="user__perm--switch" sliderClass="user__perm--slider user__perm--round" onSwitchChange={(e) => {
                                             let newTableUsers = tableUsers; newTableUsers[index].permissions.manageRows = ((e.target as HTMLInputElement)?.checked); setTableUsers([...newTableUsers]);
                                         }} />
                                     </div>
-                                    <div className="user__field">
-                                        <div className="user__title">Manage Fields</div>
+                                    <div className="tableUser__field">
+                                        <div className="tableUser__title">Manage Fields</div>
                                         <Switch switchId="id__userPerm--manageFields" check={user.permissions.manageFields} disabled={!edit} switchClass="user__perm--switch" sliderClass="user__perm--slider user__perm--round" onSwitchChange={(e) => {
                                             let newTableUsers = tableUsers; newTableUsers[index].permissions.manageFields = ((e.target as HTMLInputElement)?.checked); setTableUsers([...newTableUsers]);
                                         }} />
                                     </div>
-                                    <div className="user__field">
-                                        <div className="user__title">Manage Table</div>
+                                    <div className="tableUser__field">
+                                        <div className="tableUser__title">Manage Table</div>
                                         <Switch switchId="id__userPerm--manageTable" check={user.permissions.manageTable} disabled={!edit} switchClass="user__perm--switch" sliderClass="user__perm--slider user__perm--round" onSwitchChange={(e) => {
                                             let newTableUsers = tableUsers; newTableUsers[index].permissions.manageTable = ((e.target as HTMLInputElement)?.checked); setTableUsers([...newTableUsers]);
                                         }} />
                                     </div>
-                                    <div className="user__field">
-                                        <div className="user__title">Manage Users</div>
+                                    <div className="tableUser__field">
+                                        <div className="tableUser__title">Manage Users</div>
                                         <Switch switchId="id__userPerm--manageUsers" check={user.permissions.manageUsers} disabled={!edit} switchClass="user__perm--switch" sliderClass="user__perm--slider user__perm--round" onSwitchChange={(e) => {
                                             let newTableUsers = tableUsers; newTableUsers[index].permissions.manageUsers = ((e.target as HTMLInputElement)?.checked); setTableUsers([...newTableUsers]);
                                         }} />

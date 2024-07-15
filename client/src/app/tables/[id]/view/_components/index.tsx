@@ -172,7 +172,8 @@ export function TableView({url, id}: {url: string, id: string}) {
             setTableViewError(data.errors[0].message);
         }
         if(data.data.writeInTable){
-            setTableData([...tableData, data.data.writeInTable.rows[0]]); // Because we are adding only one row at a time.
+            if(!tableData){ setTableData([data.data.writeInTable.rows[0]]); }
+            else{ setTableData([...tableData, data.data.writeInTable.rows[0]]); } // Because we are adding only one row at a time.
             setTableViewSuccess("New row added successfully!" as any);
             setAddRow(null);
             setIsAddRow(false);

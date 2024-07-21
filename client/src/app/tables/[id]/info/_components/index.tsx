@@ -55,7 +55,7 @@ export function TableInfo({url, id}: {url: string, id: string}){
         }
         if(data.data.getTable){
             data = data.data.getTable;
-            setTableSuccess("Table info fetched successfully!" as any);
+            setTableSuccess("Loaded!" as any);
             setTableInfo(data);
         }
     }

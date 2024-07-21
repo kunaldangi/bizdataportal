@@ -51,7 +51,7 @@ export function Whitelist({url}: {url: string}) {
         }
         if(data.data.getWhitelistEmails){
             setWhitelist(data.data.getWhitelistEmails);
-            setWhitelistEmailSuccess("Whitelist emails fetched successfully" as any);
+            setWhitelistEmailSuccess("Loaded!" as any);
         }
     }
 
@@ -86,7 +86,7 @@ export function Whitelist({url}: {url: string}) {
             let newWhitelist = whitelist;
             newWhitelist.splice(index, 1);
             setWhitelist([...newWhitelist] as any);
-            setDeleteSuccess(data.message);
+            setDeleteSuccess("Removed!" as any);
             return;
         }
     }
@@ -129,12 +129,12 @@ export function Whitelist({url}: {url: string}) {
             setAddError(data.errors[0].message);
         }
         if(data?.data?.addWhitelistEmail){
-            setAddSuccess("Email added successfully" as any);
             setWhitelist([...whitelist, data.data.addWhitelistEmail] as any);
             setTimeout(() => {
                 setAddSuccess(null);
                 handleAddWhitelistClick();
             }, 2000);
+            setAddSuccess("Added!" as any);
         }
     }
 

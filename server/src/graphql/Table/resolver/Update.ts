@@ -19,16 +19,16 @@ export const Update = {
 
                 const userTable: Table = JSON.parse(data.table); // Convert string to JSON Object
                 const table: any = await db.tables.findByPk(data.id); // Find the table by id
-                if(!table.dataValues.name) throw new GraphQLError('Table does not exist.');
+                if(!table.dataValues.name) throw new GraphQLError('The table does not exist.');
                 
                 let tableFieldQuery: string = '';
                 for (const [key, value] of Object.entries(userTable)) { // Updating tables dynamically
 
-                    if(!table.dataValues[key]) throw new GraphQLError(`'${key}' do not exists in the table.`);
+                    if(!table.dataValues[key]) throw new GraphQLError(`'${key}' does not exists in the table.`);
                     if(key === 'id' || key === 'createdAt' || key === 'updatedAt') throw new GraphQLError(`You cannot change 'id', 'createdAt', 'updatedAt' of a table.`);
 
                     if(key === 'ownerId'){ // Only Admins or Owner of table can change ownerId
-                        if(!context.permissions.tables.manage && !(table.dataValues.ownerId == context.id)) throw new GraphQLError('You do not have permission to change ownerId of the table.');
+                        if(!context.permissions.tables.manage && !(table.dataValues.ownerId == context.id)) throw new GraphQLError('You do not have permission to change the \'ownerId\' of the table.');
                         try {
                             const user: any = await db.user.findByPk(value);
                             if(!user.dataValues) throw new GraphQLError(`User with id '${value}' does not exist.`);
@@ -41,12 +41,12 @@ export const Update = {
                     let tableName: string = `table_${parseInt(table.dataValues.id)}`;
 
                     if(key === 'fields'){ // To handle 'fields' differently
-                        if(!context.permissions.tables.manage && !tablePermission.manageFields) throw new GraphQLError('You do not have permission to manage fields of the table.');
+                        if(!context.permissions.tables.manage && !tablePermission.manageFields) throw new GraphQLError('You do not have permission to manage the fields of the table.');
                         for(let i=0; i<value.length; i++){ // Loop through the fields array
                             for(const [fKey, fValue] of Object.entries(value[i])){
-                                if(fKey === 'id') throw new GraphQLError(`You cannot change 'id' of a field.`);
-                                if(!table.dataValues[key][i].hasOwnProperty(fKey)) throw new GraphQLError(`'${fKey}' do not exist in the fields.`);
-                                if(fKey === 'dataType' && !(fValue === 'text' || fValue === 'number')) throw new GraphQLError(`Invalid data type '${fValue}'! dataType can only be 'text' or 'number'.`);
+                                if(fKey === 'id') throw new GraphQLError(`You cannot change the 'id' of a field.`);
+                                if(!table.dataValues[key][i].hasOwnProperty(fKey)) throw new GraphQLError(`'${fKey}' does not exist in the fields.`);
+                                if(fKey === 'dataType' && !(fValue === 'text' || fValue === 'number')) throw new GraphQLError(`Invalid data type '${fValue}'! The data type can only be 'text' or 'number'.`);
                                 
                                 if(fKey === 'title'){ // You have to make sure title/column name change first before changing column types
                                     tableFieldQuery += `ALTER TABLE ${escapeIdPostgre(tableName)} RENAME COLUMN ${escapeIdPostgre(table.dataValues[key][i]['title'])} TO ${escapeIdPostgre(fValue)}; `;
@@ -58,18 +58,18 @@ export const Update = {
                                         tableFieldQuery += `ALTER TABLE ${escapeIdPostgre(tableName)} ALTER COLUMN ${escapeIdPostgre(userTable.fields[i].title)} SET DEFAULT ${SqlString.escape(dfValue)}; `;	
                                         table.dataValues[key][i][fKey] = dfValue;
                                     } catch (error) {
-                                        throw new GraphQLError(`Invalid default value type for field '${table.dataValues[key][i]['title']}'! Make sure default value must be a string. ERROR: ${error}`);
+                                        throw new GraphQLError(`Invalid default value type for field '${table.dataValues[key][i]['title']}'! The default value must be a string. ERROR: ${error}`);
                                     }
                                 }
                                 else if(fKey === 'defaultValue' && table.dataValues[key][i]['dataType'] === "number"){
                                     try {
                                         let value: any = fValue; // because we cannot change type of fValue
                                         let dfValue: number = parseInt(value);
-                                        if(isNaN(dfValue)) throw new GraphQLError(`Invalid default value type for field '${table.dataValues[key][i]['title']}'! Make sure default value must be a number.`);
+                                        if(isNaN(dfValue)) throw new GraphQLError(`Invalid default value type for field '${table.dataValues[key][i]['title']}'! The default value must be a number.`);
                                         tableFieldQuery += `ALTER TABLE ${escapeIdPostgre(tableName)} ALTER COLUMN ${escapeIdPostgre(userTable.fields[i].title)} SET DEFAULT ${SqlString.escape(dfValue)}; `;
                                         table.dataValues[key][i][fKey] = dfValue;
                                     } catch (error) {
-                                        throw new GraphQLError(`Invalid default value type for field '${table.dataValues[key][i]['title']}'! Make sure default value must be a number. ${error}`);
+                                        throw new GraphQLError(`Invalid default value type for field '${table.dataValues[key][i]['title']}'! The default value must be a number. ERROR: ${error}`);
                                     }
                                 }
 
@@ -106,7 +106,7 @@ export const Update = {
                 if(!userTPerm.manageRows && !context.permissions.tables.manage) throw new GraphQLError('You do not have permission to edit rows in this table.');
                 
                 let table: Table = (await db.tables.findByPk(data.id))?.dataValues;
-                if(table.id != data.id) throw new GraphQLError('Table not found!');
+                if(table.id != data.id) throw new GraphQLError('The table does not exists.');
                 let tableFields: TableField[] = table.fields;
 
                 let rowsData: RowsData = JSON.parse(data.rows);
@@ -116,7 +116,7 @@ export const Update = {
                     let rowId: number = -1;
                     let updateQuery: string = `UPDATE ${escapeIdPostgre(tableName)} SET`;
                     fieldData.forEach((field, fieldIndex) => {
-                        if(!tableFields[field.fieldId]) throw new GraphQLError(`Field not found with id ${field.fieldId}.`);
+                        if(!tableFields[field.fieldId]) throw new GraphQLError(`Field with id ${field.fieldId} not found.`);
                         rowId = field.rowId;
                         updateQuery += ` ${escapeIdPostgre(tableFields[field.fieldId].title)} = ${SqlString.escape(field.value)},`;
                     });
@@ -173,7 +173,7 @@ export const Update = {
                 if(!tableUserResult[0]) throw new GraphQLError('Failed to update user permissions.');
 
                 let user: User = (await db.user.findByPk(data.userId))?.dataValues;
-                if(!user) throw new GraphQLError('User not found.');
+                if(!user) throw new GraphQLError('The user does not exists.');
 
                 return {id: user.id, username: user.username, email: user.email, permissions: tableUser.permissions};
             }

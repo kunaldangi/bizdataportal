@@ -27,7 +27,7 @@ export const Create = {
                         const cqResult: any = await db.sequelize.query(`CREATE TABLE table_${tableInfo.id} ( id SERIAL PRIMARY KEY );`);
                         const tablePermResult = await db.tablePermissions.create({tableId: tableInfo.id, userId: context.id, permissions: {writeEntry:true, manageRows:true, manageFields:true, manageTable:true, manageUsers:true}});
                         
-                        if(!tablePermResult.dataValues.id) throw new GraphQLError('Failed to create a table permissions.');
+                        if(!tablePermResult.dataValues.id) throw new GraphQLError('Failed to create table permissions.');
                         if(cqResult[1]?.command) return tableInfo;
                     }
                 }
@@ -81,10 +81,10 @@ export const Create = {
             if (!context.auth) throw new GraphQLError('Unauthorized Access! Please login to continue.');
             try {
                 let userTPerm: TablePermissions = (await db.tablePermissions.findOne({where: {tableId: data.id, userId: context.id}}))?.dataValues;
-                if(!userTPerm.writeEntry && !context.permissions.tables.writeIn) throw new GraphQLError('You do not have permission to write a entry in this table.');
+                if(!userTPerm.writeEntry && !context.permissions.tables.writeIn) throw new GraphQLError('You do not have permission to write an entry in this table.');
                 
                 let table: Table = (await db.tables.findByPk(data.id))?.dataValues;
-                if(table.id != data.id) throw new GraphQLError('Table not found!');
+                if(table.id != data.id) throw new GraphQLError('No table found!');
                 let tableFields: TableField[] = table.fields;
 
                 let userRows: RowsData = JSON.parse(data.rows);
@@ -106,7 +106,7 @@ export const Create = {
                     insertQuery += `${fieldsQuery}) VALUES (${valuesQuery});`;
                     try {
                         const [result, metadata] = await db.sequelize.query(insertQuery);
-                        if(!metadata) throw new GraphQLError('Failed to write in table.');
+                        if(!metadata) throw new GraphQLError('Failed to write an entry to the table.');
 
                     } catch (error: any) {
                         throw new GraphQLError(error);
@@ -115,7 +115,7 @@ export const Create = {
 
                 let tableName: string = `table_${table.id}`;
                 const [tableData, tableMetaData] = await db.sequelize.query(`SELECT * FROM ${escapeIdPostgre(tableName)} ORDER BY id DESC LIMIT ${SqlString.escape((userRows.length+1))};`);
-                if(!tableData || (tableData.length <= 0)) throw new GraphQLError('No data found in the table.');
+                if(!tableData || (tableData.length <= 0)) throw new GraphQLError('No entry found in the table.');
 
                 let tableRows: RowsData = tableData.map((row: any, rowIndex: number) => {
                     let newRow: RowData = [];
@@ -144,7 +144,7 @@ export const Create = {
 
                 let usrResult = await db.user.findByPk(data.userId);
                 let user: User = usrResult?.dataValues;
-                if(!usrResult || !user.id) throw new GraphQLError('User not found!');
+                if(!usrResult || !user.id) throw new GraphQLError('User not found.');
 
                 let addUsrTablePrmResult = await db.tablePermissions.create({tableId: data.tableId, userId: data.userId});
                 if(!addUsrTablePrmResult.dataValues.id) throw new GraphQLError('Failed to add a user in the table.');
@@ -157,7 +157,7 @@ export const Create = {
                 };
             }
             catch(error: any){
-                if(error instanceof UniqueConstraintError) throw new GraphQLError('User already added in the table.');
+                if(error instanceof UniqueConstraintError) throw new GraphQLError('The user is already present in the table.');
                 throw new GraphQLError(error);
             }
         }

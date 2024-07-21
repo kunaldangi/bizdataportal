@@ -64,7 +64,7 @@ export function Tables({url}: {url: string}) {
         }
         if(data.data.getTables){
             setTablesList(data.data.getTables);
-            setTablesSuccess("Tables fetched successfully!" as any);
+            setTablesSuccess("Loaded!" as any);
         }
     }
 
@@ -148,7 +148,7 @@ export function Tables({url}: {url: string}) {
             return;
         }
         if(data.data.createTable){
-            setCreateSuccess("Table created successfully!" as any);
+            setCreateSuccess("Created!" as any);
             setTimeout(() => {
                 router.push(`/tables/${data.data.createTable.id}/view`);
             }, 2000);

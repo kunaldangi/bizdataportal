@@ -1,0 +1,11 @@
+# Or you can have your own configured postgres server
+version: '3.8'
+
+services:
+  db:
+    image: postgres
+    container_name: bizdataportal
+    environment:
+      POSTGRES_PASSWORD: bizdataportal
+    ports:
+      - "5432:5432"

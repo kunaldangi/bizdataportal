@@ -72,7 +72,7 @@ export function User({url, id}: {url: string, id: string}){
         data = data.data.getUser;
         if(data){
             setUserInfo(data);
-            setUserInfoSuccess("User data loaded successfully!");
+            setUserInfoSuccess("Loaded!");
         }
         setEdit(false);
     }

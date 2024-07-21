@@ -45,7 +45,7 @@ export function Users({url}: {url: string}){
         if(data.data.getUsers){
             data = data.data.getUsers;
             setUsers(data);
-            setUsersSuccess("Users fetched successfully" as any);
+            setUsersSuccess("Loaded!" as any);
         }
         if(!data){
             setUsers([]);

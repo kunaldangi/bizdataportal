@@ -20,9 +20,9 @@ export const Delete = {
                 
                 if(!userData) throw new GraphQLError('User not found.');
                 let user: User = userData?.dataValues;
-                if(user.level >= context.level) throw new GraphQLError('You cannot delete a user of a higher or equal level to your level.');
+                if(user.level >= context.level) throw new GraphQLError('You cannot delete a user with a higher or equal level to yours.');
                 await userData?.destroy();
-                return { status: 'success', message: 'User deleted successfully.' };
+                return { status: 'success', message: 'Deleted!' };
             } catch (error: any) {
                 throw new GraphQLError(error);
             }

@@ -64,7 +64,7 @@ export function TableUsers({url, id}: {url: string, id: string}){
         if(data.data.getTableUsers){
             data = data.data.getTableUsers;
             data = [...data]
-            setTableUsersSuccess("Table users fetched successfully!" as any);
+            setTableUsersSuccess("Loaded!" as any);
             setTableUsers(data);
             console.log(data);
         }
@@ -107,7 +107,7 @@ export function TableUsers({url, id}: {url: string, id: string}){
             setTableUsersError(data.errors[0].message);
         }
         if(data.data.editTableUserPermissions){
-            setTableUsersSuccess("Table user permissions saved successfully!" as any);
+            setTableUsersSuccess("Saved!" as any);
             data = data.data.editTableUserPermissions;
             let newTableUsers = tableUsers; 
             newTableUsers[index].permissions = data.permissions;
@@ -161,7 +161,7 @@ export function TableUsers({url, id}: {url: string, id: string}){
             console.log(data);
             let newTableUsers = [...tableUsers, data];
             setTableUsers([...newTableUsers]);
-            setAddSuccess("Table user added successfully!" as any);
+            setAddSuccess("Added!" as any);
 
             setTimeout(()=>{
                 setAddSuccess(null);
@@ -201,7 +201,7 @@ export function TableUsers({url, id}: {url: string, id: string}){
             let newTableUsers = tableUsers;
             newTableUsers.splice(index, 1);
             setTableUsers([...newTableUsers]);
-            setTableUsersSuccess("Table user removed successfully!" as any);
+            setTableUsersSuccess("Removed!" as any);
         }
     }
 

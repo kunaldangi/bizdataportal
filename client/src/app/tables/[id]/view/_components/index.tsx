@@ -66,7 +66,7 @@ export function TableView({url, id}: {url: string, id: string}) {
         if(data.data.readTable){
             data.data.readTable.rows.reverse();
             setTableData(data.data.readTable.rows);
-            setTableViewSuccess("Table data loaded successfully!" as any);
+            setTableViewSuccess("Loaded!" as any);
         }
     }
 
@@ -108,7 +108,7 @@ export function TableView({url, id}: {url: string, id: string}) {
 
         if(data.data.getTable){
             setTableInfo(data.data.getTable);
-            setTableViewSuccess("Table info loaded successfully!" as any);
+            setTableViewSuccess("Loaded!" as any);
         }   
     }
 
@@ -174,7 +174,7 @@ export function TableView({url, id}: {url: string, id: string}) {
         if(data.data.writeInTable){
             if(!tableData){ setTableData([data.data.writeInTable.rows[0]]); }
             else{ setTableData([...tableData, data.data.writeInTable.rows[0]]); } // Because we are adding only one row at a time.
-            setTableViewSuccess("New row added successfully!" as any);
+            setTableViewSuccess("Added!" as any);
             setAddRow(null);
             setIsAddRow(false);
         }

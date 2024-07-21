@@ -21,7 +21,7 @@ export const Read = {
                 const table = await db.tables.findByPk(data.id);
                 if(table?.dataValues) return table?.dataValues;
                 
-                throw new GraphQLError('No tables found.');
+                throw new GraphQLError('The table does not exist.');
             } catch (error: any) {
                 throw new GraphQLError(error);
             }
@@ -52,7 +52,7 @@ export const Read = {
                 if (!context.permissions.tables.read && !userTPerm) throw new GraphQLError('You do not have permission to read this table.');
                 
                 const table: Table = (await db.tables.findByPk(data.id))?.dataValues;
-                if(!table.name) throw new GraphQLError('Table not found!');
+                if(!table.name) throw new GraphQLError('The table does not exist.');
 
                 let tableFields: TableField[] = table.fields;
                 let tableName: string = `table_${table.id}`;

@@ -26,7 +26,7 @@ export async function verify(req: Request, res: Response){
     
         if(userData?.dataValues.email){
             res.clearCookie('otp_token');
-            return res.send(JSON.stringify({ success: "Account created successfully!"}));
+            return res.send(JSON.stringify({ success: "Created!"}));
         }
     
         res.send(JSON.stringify({error: "Something went wrong!"}));

@@ -125,7 +125,6 @@ export function TableView({url, id}: {url: string, id: string}) {
     }
 
     async function saveAddRow(){
-        // console.log(JSON.stringify([addRow]));
 
         let newRow = [];
         for(let i = 0; i < addRow.length; i++){

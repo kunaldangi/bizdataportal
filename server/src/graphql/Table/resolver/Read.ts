@@ -12,11 +12,8 @@ export const Read = {
         getTable: async (_root: any, data: {id: number}, context: Context): Promise<Table> => { // Verified
             if (!context.auth) throw new GraphQLError('Unauthorized Access! Please login to continue.');
             try {
-                let result: any = await db.tablePermissions.findOne({where: {userId: context.id, tableId: data.id}});
-                if(!result?.dataValues) throw new GraphQLError('You do not have permission to view this table.');
-
-                let tablePerm: TablePermissions = result.dataValues.permissions;
-                if(!tablePerm && !context.permissions.tables.read) throw new GraphQLError('You do not have permission to view this table.');
+                let tablePerm: TablePermissions = (await db.tablePermissions.findOne({where: {tableId: data.id, userId: context.id}}))?.dataValues;
+                if(!(context.permissions.tables.read || (tablePerm !== undefined))) throw new GraphQLError('You do not have permission to view this table.');
     
                 const table = await db.tables.findByPk(data.id);
                 if(table?.dataValues) return table?.dataValues;
@@ -49,8 +46,7 @@ export const Read = {
             if (!context.auth) throw new GraphQLError('Unauthorized Access! Please login to continue.');
             try {
                 let userTPerm: TablePermissions = (await db.tablePermissions.findOne({where: {tableId: data.id, userId: context.id}}))?.dataValues;
-                if (!context.permissions.tables.read && !userTPerm) throw new GraphQLError('You do not have permission to read this table.');
-                
+
                 const table: Table = (await db.tables.findByPk(data.id))?.dataValues;
                 if(!table.name) throw new GraphQLError('The table does not exist.');
 
@@ -71,6 +67,7 @@ export const Read = {
                     return newRow;
                 });
                 return {id: table.id, rows: newTableData};
+                
             } catch (error: any){
                 throw new GraphQLError(error);
             }

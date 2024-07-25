@@ -14,7 +14,7 @@ export async function register(req: Request, res: Response){
         if (req.body.password.length < 8) return res.send(JSON.stringify({ error: "Invalid password length." }));
 
         let checkWhitelist = await db.whitelistEmail.findOne({ where: { email: req.body.email } });
-        if(checkWhitelist?.dataValues.email !== req.body.email) return res.send(JSON.stringify({ error: "Email not whitelisted." }));
+        if(checkWhitelist?.dataValues.email !== req.body.email) return res.send(JSON.stringify({ error: "This email is not whitelisted." }));
 
         const otp_code: number = generate_otp_code();
         const otp_payload = {

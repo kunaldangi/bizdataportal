@@ -1,4 +1,4 @@
-import cookie from 'cookie';
+import * as cookie from 'cookie';
 import verifyToken from '../lib/jwt';
 
 import db from '../db';
@@ -9,7 +9,7 @@ export async function setHttpContext({ req }: { req: any}): Promise<Context>{
 		if(req.headers.cookie) {
 			const cookies = cookie.parse(req.headers.cookie);
 			if (cookies?.session) {
-				const result: any = await verifyToken(cookies?.session, process.env.JWT_SESSION_SECRET || '');        
+				const result: any = await verifyToken(cookies?.session, process.env.JWT_SESSION_SECRET || '');   
 				if(result?.userId){
 					const userData: any = await db.user?.findOne({ where: { id: result.userId } });
 					userData.dataValues.permissions = userData?.dataValues.permissions;
@@ -18,6 +18,7 @@ export async function setHttpContext({ req }: { req: any}): Promise<Context>{
 			}
 		}
 	} catch (error) {
+		console.log('[CONTEXT] Error: ', error.message);
 		return {auth: false} as any;
 	}
 	return {auth: false} as any;

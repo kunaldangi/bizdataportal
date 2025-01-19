@@ -12,12 +12,13 @@ import db from './db';
 import initializeRoutes from './routes';
 import { schema as graphqlSchema, resolver as graphqlResolver } from './graphql';
 import { setHttpContext } from "./graphql/context";
+import { nextApp } from "./next";
 
 
 let corsOptions = { // Cross-Origin Resource Sharing (CORS) configuration
     origin: function (origin: any, callback: any) {
         console.log("Origin: ", origin);
-        if (origin === "http://localhost" || origin === undefined) {
+        if (origin === "http://localhost:8080" || origin === undefined) {
             callback(null, true)
         }
         else{
@@ -45,6 +46,9 @@ async function main(): Promise<void> {
     initializeRoutes(expressApp); // initializing routes
 
     expressApp.use('/graphql', apolloMiddleware(apolloServer, { context: setHttpContext }, )); // adding Apollo Server to Express
+
+    const nextHandler = await nextApp(isDevMode); // initializing Next.js
+    expressApp.use(nextHandler); // adding Next.js to Express
 
     expressApp.listen(port, (): void => {
         console.log(`Server is running at http://localhost:${port}`);

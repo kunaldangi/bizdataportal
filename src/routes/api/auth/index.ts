@@ -6,7 +6,7 @@ import { verify } from "./verify";
 
 const router = express.Router();
 
-router.post('/register',  register);
+router.post('/register', register);
 router.post("/verify", verify);
 router.post("/login", login);
 

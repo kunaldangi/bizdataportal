@@ -126,7 +126,7 @@ export function TableView({url, id}: {url: string, id: string}) {
 
     async function saveAddRow(){
 
-        let newRow = [];
+        let newRow: any = [];
         for(let i = 0; i < addRow.length; i++){
             if(tableInfo.fields[i].dataType === "number"){
                 newRow.push({

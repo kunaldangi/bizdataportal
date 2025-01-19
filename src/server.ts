@@ -31,27 +31,28 @@ let corsOptions = { // Cross-Origin Resource Sharing (CORS) configuration
 async function main(): Promise<void> {
     const isDevMode = (process.env.SERVER_RUN_MODE === "development");
     const expressApp: Express = express(); // creating an Express server
-    const port: number = 8080; // port number
-
+    const port: number = parseInt(process.env.BACKEND_PORT || '8080') || 8080; // port number
+    
     await db.initialize(); // initializing the database
-
+    
     expressApp.use(bodyParser.json()); // parsing JSON data
     expressApp.use(cors(corsOptions)); // enabling CORS
     expressApp.use(cookieParser()); // enabling cookie parser
-
+    
     const apolloServer = new ApolloServer({ typeDefs: graphqlSchema, resolvers: graphqlResolver, includeStacktraceInErrorResponses: isDevMode}); // creating an Apollo Server instance
     await apolloServer.start(); // starting Apollo Server to handle GraphQL requests
-
+    
     
     initializeRoutes(expressApp); // initializing routes
-
+    
     expressApp.use('/graphql', apolloMiddleware(apolloServer, { context: setHttpContext }, )); // adding Apollo Server to Express
 
     const nextHandler = await nextApp(isDevMode); // initializing Next.js
     expressApp.use(nextHandler); // adding Next.js to Express
-
+    
     expressApp.listen(port, (): void => {
         console.log(`Server is running at http://localhost:${port}`);
+        console.log(`MODE: (${isDevMode}) ${process.env.SERVER_RUN_MODE}`);
     });
 }
 

@@ -57,12 +57,5 @@ npm run dev # to start development server
 # OR
 npm run build
 npm run start # to start production server
-
-cd bizdataportal/server
-npm i
-npm run dev # to start development server (typescript watch mode)
-# OR
-npm run build
-npm run start # to start production server (javascript compiled mode)
 ```
 Open http://localhost with your browser to see the result.

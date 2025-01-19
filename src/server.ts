@@ -18,8 +18,8 @@ import { nextApp } from "./next";
 let corsOptions = { // Cross-Origin Resource Sharing (CORS) configuration
     origin: function (origin: any, callback: any) {
         console.log("Origin: ", origin);
-        if (origin === "http://localhost:8080" || origin === undefined) {
-            callback(null, true)
+        if (origin === `http://${process.env.BACKEND_HOST || "localhost"}:${process.env.BACKEND_PORT || "8080"}` || origin === undefined) {
+            callback(null, true);
         }
         else{
             callback(new Error('You are not allowed to access this server!'));

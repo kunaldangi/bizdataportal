@@ -20,49 +20,44 @@ Please head to [here](https://github.com/kunaldangi/bizdataportal/blob/3efb40936
 
 ## How to run?
 
-### NextJs Server
+### Server
 
 Setup environment variable
 ```env
-# ----- BACKEND CONFIGURATION -----
-BACKEND_URL=
-BACKEND_HOST=
-BACKEND_PORT=
-# ----- TOKEN CONFIGURATION -----
-JWT_SESSION_SECRET=
-```
+SERVER_RUN_MODE=
 
-```bash
-git clone https://github.com/kunaldangi/bizdataportal.git
-cd bizdataportal/client
-npm i
-npm run dev # to start development server
-# OR
-npm run build
-npm run start # to start production server
-```
-
-### Backend Server
-
-Setup environment variable
-```env
-SERVER_RUN_MODE="development"
-
-# ----- DATABASE CONFIGURATION -----
 DATABASE_HOST=
 DATABASE_NAME=
 DATABASE_USER=
 DATABASE_PASSWORD=
 
-# ----- MAIL CONFIGURATION -----
+# Create a app in google accout
 GMAIL_ID=
 GMAIL_KEY=
 
-# ----- TOKEN CONFIGURATION -----
 JWT_OTP_SECRET=
 JWT_SESSION_SECRET=
+
+BACKEND_URL=
+BACKEND_HOST=
+BACKEND_PORT=
+
+# For adding some default users
+NORMALUSER_NAME=
+NORMALUSER_PASSWORD=
+ADMINUSER_NAME=
+ADMINUSER_PASSWORD=
 ```
+
 ```bash
+git clone https://github.com/kunaldangi/bizdataportal.git
+cd bizdataportal
+npm i
+npm run dev # to start development server
+# OR
+npm run build
+npm run start # to start production server
+
 cd bizdataportal/server
 npm i
 npm run dev # to start development server (typescript watch mode)

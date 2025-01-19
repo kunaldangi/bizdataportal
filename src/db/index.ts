@@ -54,7 +54,21 @@ export class Database {
         if(!normalData?.dataValues){
             let saltNormalPass: string = bcrypt.genSaltSync(10);
             let hashNormalPass: string = bcrypt.hashSync(process.env.NORMALUSER_PASSWORD || 'john', saltNormalPass);
-            let normalUserData: any = await db.user?.create({ username: process.env.NORMALUSER_NAME || 'john', email: `${process.env.NORMALUSER_NAME || 'john'}@bizdataportal.ddns.net`, password: hashNormalPass, level: 0, permissions: { usersAcc: { manage: false, managePermissions: false, manageWhitelist: false }, tables: { create: true, read: true, writeIn: true, manage: true, manageUserPermissions: true } } });
+            let normalPerm = {
+                usersAcc:{
+                    manage:false,
+                    managePermissions:false,
+                    manageWhitelist:false
+                },
+                tables:{
+                    create:true,
+                    read:true,
+                    writeIn:true,
+                    manage:true,
+                    manageUserPermissions:true
+                }
+            };
+            let normalUserData: any = await db.user?.create({ username: process.env.NORMALUSER_NAME || 'john', email: `${process.env.NORMALUSER_NAME || 'john'}@bizdataportal.ddns.net`, password: hashNormalPass, level: 0, permissions: normalPerm });
             if(normalUserData?.dataValues.email) console.log(` - User 'john' created!`);
         }
         else console.log(` - User 'john' already exists!`);
@@ -63,7 +77,21 @@ export class Database {
         if(!adminData?.dataValues){
             let saltAdminPass: string = bcrypt.genSaltSync(10);
             let hashAdminPass: string = bcrypt.hashSync(process.env.ADMINUSER_PASSWORD || 'admin', saltAdminPass);
-            let adminUserData: any = await db.user?.create({ username: process.env.ADMINUSER_NAME || 'admin', email: `${process.env.ADMINUSER_NAME || 'admin'}@bizdataportal.ddns.net`, password: hashAdminPass, level: 999, permissions: { usersAcc: { manage: true, managePermissions: true, manageWhitelist: true }, tables: { create: true, read: true, writeIn: true, manage: true, manageUserPermissions: true } } });
+            let adminPerm = {
+                usersAcc:{
+                    manage:true,
+                    managePermissions:true,
+                    manageWhitelist:true
+                },
+                tables:{
+                    create:true,
+                    read:true,
+                    writeIn:true,
+                    manage:true,
+                    manageUserPermissions:true
+                }
+            };
+            let adminUserData: any = await db.user?.create({ username: process.env.ADMINUSER_NAME || 'admin', email: `${process.env.ADMINUSER_NAME || 'admin'}@bizdataportal.ddns.net`, password: hashAdminPass, level: 999, permissions: adminPerm });
             if(adminUserData?.dataValues.email) console.log(` - User 'admin' created!`);
         }
         else console.log(` - User 'admin' already exists!`);

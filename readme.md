@@ -31,7 +31,7 @@ DATABASE_NAME=
 DATABASE_USER=
 DATABASE_PASSWORD=
 
-# Create a app in google accout
+# Create a app in google account
 GMAIL_ID=
 GMAIL_KEY=
 

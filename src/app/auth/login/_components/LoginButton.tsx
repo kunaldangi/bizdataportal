@@ -45,7 +45,7 @@ export function LoginButton({url, email, password}: {url: string | undefined, em
 
     return(<>
         <input type="email" id="loginId__email" placeholder='Email' className='main__form--email' value={loginInfo.email} onChange={(e)=>setLoginInfo({email: e.target.value, password: loginInfo.password})} />
-        <input type="password" id="loginId__pwd" placeholder='Password' className='main__form--password' value={loginInfo.password} onChange={(e)=>setLoginInfo({email: e.target.value, password: e.target.value})} />
+        <input type="password" id="loginId__pwd" placeholder='Password' className='main__form--password' value={loginInfo.password} onChange={(e)=>setLoginInfo({email: loginInfo.email, password: e.target.value})} />
         {error && <ErrorBox error={error} closeError={()=>{setError(null)}} />}
         {success && <SuccessBox success={success} closeSuccess={()=>{setSuccess(null)}} />}
         <Button className='login__btn' onClick={login}>Login</Button>

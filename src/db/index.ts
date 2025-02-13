@@ -50,7 +50,7 @@ export class Database {
         await this.sequelize.sync({alter: true});
 
         
-        let normalData = await this.user.findOne({ where: { email: `${process.env.NORMALUSER_NAME || 'john'}@bizdataportal.ddns.net` }});
+        let normalData = await this.user.findOne({ where: { email: `${process.env.NORMALUSER_NAME || 'john'}@${process.env.BACKEND_HOST}` }});
         if(!normalData?.dataValues){
             let saltNormalPass: string = bcrypt.genSaltSync(10);
             let hashNormalPass: string = bcrypt.hashSync(process.env.NORMALUSER_PASSWORD || 'john', saltNormalPass);
@@ -68,12 +68,12 @@ export class Database {
                     manageUserPermissions:true
                 }
             };
-            let normalUserData: any = await db.user?.create({ username: process.env.NORMALUSER_NAME || 'john', email: `${process.env.NORMALUSER_NAME || 'john'}@bizdataportal.ddns.net`, password: hashNormalPass, level: 0, permissions: normalPerm });
+            let normalUserData: any = await db.user?.create({ username: process.env.NORMALUSER_NAME || 'john', email: `${process.env.NORMALUSER_NAME || 'john'}@${process.env.BACKEND_HOST}`, password: hashNormalPass, level: 0, permissions: normalPerm });
             if(normalUserData?.dataValues.email) console.log(` - User 'john' created!`);
         }
         else console.log(` - User 'john' already exists!`);
 
-        let adminData = await this.user.findOne({ where: { email: `${process.env.ADMINUSER_NAME || 'admin'}@bizdataportal.ddns.net` }});
+        let adminData = await this.user.findOne({ where: { email: `${process.env.ADMINUSER_NAME || 'admin'}@${process.env.BACKEND_HOST}` }});
         if(!adminData?.dataValues){
             let saltAdminPass: string = bcrypt.genSaltSync(10);
             let hashAdminPass: string = bcrypt.hashSync(process.env.ADMINUSER_PASSWORD || 'admin', saltAdminPass);
@@ -91,7 +91,7 @@ export class Database {
                     manageUserPermissions:true
                 }
             };
-            let adminUserData: any = await db.user?.create({ username: process.env.ADMINUSER_NAME || 'admin', email: `${process.env.ADMINUSER_NAME || 'admin'}@bizdataportal.ddns.net`, password: hashAdminPass, level: 999, permissions: adminPerm });
+            let adminUserData: any = await db.user?.create({ username: process.env.ADMINUSER_NAME || 'admin', email: `${process.env.ADMINUSER_NAME || 'admin'}@${process.env.BACKEND_HOST}`, password: hashAdminPass, level: 999, permissions: adminPerm });
             if(adminUserData?.dataValues.email) console.log(` - User 'admin' created!`);
         }
         else console.log(` - User 'admin' already exists!`);

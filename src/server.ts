@@ -18,7 +18,9 @@ import { nextApp } from "./next";
 let corsOptions = { // Cross-Origin Resource Sharing (CORS) configuration
     origin: function (origin: any, callback: any) {
         console.log("Origin: ", origin);
-        if (origin === `http://${process.env.BACKEND_HOST || "localhost"}:${process.env.BACKEND_PORT || "8080"}` || origin === undefined) {
+        const allowedDomain = /\.kunaldangi\.me$/;
+        
+        if (!origin || allowedDomain.test(origin) || origin.startsWith("http://localhost")) {
             callback(null, true);
         }
         else{

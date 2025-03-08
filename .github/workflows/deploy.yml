@@ -36,3 +36,4 @@ jobs:
             npm install
             npm run build
             pm2 restart server || pm2 start "npm run dev" --name server
+

@@ -4,36 +4,34 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Install Node.js and Dependencies
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-      - run: npm install
-
-      - name: Build the Project
-        run: npm run build
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ vars.EC2_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy to EC2
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ec2-user
-          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-          script: |
+        run: |
+          ssh ec2-user@${{ vars.EC2_HOST }} << 'EOF'
             cd /home/ec2-user/bizdataportal
             git pull origin main
-            echo "${{ secrets.ENV_FILE }}" | base64 --decode > .env
-            npm install
+            npm install --frozen-lockfile
             npm run build
-            pm2 restart server || pm2 start "npm run dev" --name server
 
+            sudo systemctl restart bizdataportal || {
+              echo "Service failed to restart! Fetching logs..."
+              sudo journalctl -u bizdataportal --no-pager --lines=50
+              exit 1
+            }
+            echo "Service restarted successfully!"
+          EOF

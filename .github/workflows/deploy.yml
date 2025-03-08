@@ -23,10 +23,10 @@ jobs:
       - name: Deploy to EC2
         run: |
           ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
-            sudo cd /home/ec2-user/bizdataportal
-            sudo git pull origin main
-            sudo npm install --frozen-lockfile
-            sudo npm run build
+            cd /home/ec2-user/bizdataportal
+            git pull origin main
+            npm install --frozen-lockfile
+            npm run build
 
             sudo systemctl restart bizdataportal || {
               echo "Service failed to restart! Fetching logs..."

@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -11,20 +12,27 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Set up SSH Key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+      - name: Install Node.js and Dependencies
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm install
+
+      - name: Build the Project
+        run: npm run build
 
       - name: Deploy to EC2
-        run: |
-          ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
-            cd /home/ec2-user/app  # Change this to your project folder
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/ec2-user/bizdataportal
             git pull origin main
+            echo "${{ secrets.ENV_FILE }}" | base64 --decode > .env
             npm install
-            pm2 restart all  # Restart the app with PM2
-          EOF
+            npm run build
+            pm2 restart server || pm2 start "npm run dev" --name server

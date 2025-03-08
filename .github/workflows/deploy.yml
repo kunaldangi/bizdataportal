@@ -18,11 +18,11 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ vars.EC2_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy to EC2
         run: |
-          ssh ec2-user@${{ vars.EC2_HOST }} << 'EOF'
+          ssh ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
             cd /home/ec2-user/bizdataportal
             git pull origin main
             npm install --frozen-lockfile

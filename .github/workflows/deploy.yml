@@ -30,6 +30,7 @@ jobs:
 
             sudo systemctl restart bizdataportal || {
               echo "Service failed to restart! Fetching logs..."
+              sudo systemctl status bizdataportal --no-pager --lines=20
               sudo journalctl -u bizdataportal --no-pager --lines=50
               exit 1
             }

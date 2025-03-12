@@ -2,7 +2,7 @@
   <img src="https://github.com/kunaldangi/bizdataportal/blob/3efb4093663f404cb3d21b4ab99706333490a01b/docs/Logo/biz-logo.png" alt="Logo" width="150" height="150" />
 </div>
 
-# [BizDataPortal](http://bizdataportal.ddns.net:8001/)
+# [BizDataPortal](https://bizdataportal.kunaldangi.me/)
 A centralized data management web app that manages data using dynamic tables with various permission controls.
 
 ## Features

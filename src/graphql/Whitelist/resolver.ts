@@ -42,7 +42,7 @@ export const resolver = {
                     updatedAt: `${result?.dataValues.updatedAt}`
                 };
             } catch (error: any) {
-                throw new GraphQLError(error?.errors[0]?.message);
+                throw new GraphQLError(error?.message);
             }
         },
         deleteWhitelistEmail: async function deleteWhitelistEmail(_root: any, data: any, context: Context): Promise<Response>{

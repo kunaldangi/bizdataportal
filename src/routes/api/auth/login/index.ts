@@ -8,9 +8,8 @@ import db from "../../../../db";
 
 export async function login(req: Request, res: Response): Promise<any> {
     if(!req.body.email || !req.body.password) return res.send(JSON.stringify({ error: "Missing required fields." }));
-    if(!validator.isEmail(req.body.email)) return res.send(JSON.stringify({ error: "Invalid email." }));
+    if(!validator.isEmail(req.body.email) && !req.body.email.includes('localhost')) return res.send(JSON.stringify({ error: "Invalid email." }));
     if(req.body.password.length < 8) return res.send(JSON.stringify({ error: "Invalid password length." }));
-
     try {
         let dbUserData: any = await db.user?.findAll({where: { email: req.body.email}});
         if(!dbUserData[0]?.dataValues) return res.send(JSON.stringify({ error: "Invalid email or password." }));

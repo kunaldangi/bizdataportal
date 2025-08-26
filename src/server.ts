@@ -33,7 +33,7 @@ let corsOptions = { // Cross-Origin Resource Sharing (CORS) configuration
 async function main(): Promise<void> {
     const isDevMode = (process.env.SERVER_RUN_MODE === "development");
     const expressApp: Express = express(); // creating an Express server
-    const port: number = parseInt(process.env.BACKEND_PORT || '8080') || 8080; // port number
+    const port: number = parseInt(process.env.PORT || '8080') || 8080; // port number
     
     await db.initialize(); // initializing the database
     

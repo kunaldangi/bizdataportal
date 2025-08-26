@@ -16,7 +16,7 @@ export default function Page() {
                 </div>
                 <div className="main__title">Welcome Back!</div>
                 <div className="main__form">
-                    <LoginButton url={process.env.BACKEND_URL} email={`${process.env.NORMALUSER_NAME || 'john'}@${process.env.BACKEND_HOST}`} password={`${process.env.NORMALUSER_PASSWORD}`}  />
+                    <LoginButton url={process.env.BACKEND_URL} email={`${process.env.NORMALUSER_NAME || 'john'}@localhost`} password={`${process.env.NORMALUSER_PASSWORD}`}  />
                 </div>
                 <DividerLine boxClass='main__dividerBox' lineClass='main__dividerLine'><div className='main__dividerText'> OR </div></DividerLine>
                 <GotoRegister />

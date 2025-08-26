@@ -12,7 +12,7 @@ import Image from "next/image";
 import { ErrorBox } from "@/components/ErrorBox";
 import { SuccessBox } from "@/components/SuccessBox";
 
-export function TableUsers({url, id}: {url: string, id: string}){
+export function TableUsers({id}: {id: string}){
     const [tableUsers, setTableUsers] = useState([] as any[]);
 
     const [edit, setEdit] = useState(false);
@@ -28,7 +28,7 @@ export function TableUsers({url, id}: {url: string, id: string}){
     }, [])
 
     async function getTableUsers(){
-        let response = await fetch(`${url}/graphql`, {
+        let response = await fetch(`/graphql`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -72,7 +72,7 @@ export function TableUsers({url, id}: {url: string, id: string}){
 
     async function saveTableUsers(user: any, index: number){
         console.log(user.permissions);
-        let response = await fetch(`${url}/graphql`, {
+        let response = await fetch(`/graphql`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -123,7 +123,7 @@ export function TableUsers({url, id}: {url: string, id: string}){
     
     async function addUserInTable(){
         let userId = (document.querySelector(".tableUsers__addUserCard--main input") as HTMLInputElement).value;
-        let response = await fetch(`${url}/graphql`, {
+        let response = await fetch(`/graphql`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -170,7 +170,7 @@ export function TableUsers({url, id}: {url: string, id: string}){
     }
 
     async function removeTableUser(userId: string, index: number){
-        let response = await fetch(`${url}/graphql`, {
+        let response = await fetch(`/graphql`, {
             method: "POST",
             credentials: "include",
             headers: {

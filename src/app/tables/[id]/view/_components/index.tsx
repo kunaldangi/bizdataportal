@@ -11,7 +11,7 @@ import { ErrorToast } from "@/components/ErrorToast";
 import { SuccessToast } from "@/components/SuccessToast";
 
 
-export function TableView({url, id}: {url: string, id: string}) {
+export function TableView({id}: {id: string}) {
 
     const [tableInfo, setTableInfo] = useState(null as any);
     const [tableData, setTableData] = useState(null as any);
@@ -31,7 +31,7 @@ export function TableView({url, id}: {url: string, id: string}) {
     async function readTableData() {
         await getTableData();
 
-        let response = await fetch(`${url}/graphql`, {
+        let response = await fetch(`/graphql`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -71,7 +71,7 @@ export function TableView({url, id}: {url: string, id: string}) {
     }
 
     async function getTableData(){
-        let response = await fetch(`${url}/graphql`, {
+        let response = await fetch(`/graphql`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -136,7 +136,7 @@ export function TableView({url, id}: {url: string, id: string}) {
             }
         }
 
-        let response = await fetch(`${url}/graphql`, {
+        let response = await fetch(`/graphql`, {
             method: "POST",
             credentials: "include",
             headers: {

@@ -20,7 +20,7 @@ export default async function Page(){
 					<Goto href="/tables"><div className="items"><Sheet width={20} height={20} /> Tables </div></Goto>
 				</IndexBar>
 				<Content>
-                    <Users url={`${process.env.BACKEND_URL}`} />
+                    <Users />
 				</Content>
 			</Body>
 		</HomeLayout>

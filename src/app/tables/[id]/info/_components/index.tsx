@@ -7,7 +7,7 @@ import { ErrorToast } from "@/components/ErrorToast";
 import { SuccessToast } from "@/components/SuccessToast";
 import { Pencil, Save, Table, Trash2, X } from "lucide-react";
 
-export function TableInfo({url, id}: {url: string, id: string}){
+export function TableInfo({id}: {id: string}){
     const [tableInfo, setTableInfo] = useState({id: 0, ownerId: 0, name: "", description: "", totalFields: 0, fields: [] as any[]});
 
     const [edit, setEdit] = useState(false);
@@ -20,7 +20,7 @@ export function TableInfo({url, id}: {url: string, id: string}){
     }, []);
 
     async function getTableInfo(){
-        let response = await fetch(`${url}/graphql`, {
+        let response = await fetch(`/graphql`, {
             method: "POST",
             credentials: "include",
             headers: {

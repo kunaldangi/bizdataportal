@@ -14,7 +14,7 @@ export default function Page() {
                 <div className="main__logo">
                     <Image src={"/biz-logo.svg"} width={100} height={100} alt='logo' priority={true} />
                 </div>
-                <RegisterForm url={process.env.BACKEND_URL} />
+                <RegisterForm />
                 <DividerLine boxClass='main__dividerBox' lineClass='main__dividerLine'><div className='main__dividerText'> OR </div></DividerLine>
                 <GotoLogin />
             </div>

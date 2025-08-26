@@ -8,7 +8,7 @@ import { Button } from '@/components/Button';
 import { ErrorBox } from "@/components/ErrorBox";
 import { SuccessBox } from "@/components/SuccessBox";
 
-export function RegisterForm({url}: {url: string | undefined}) {
+export function RegisterForm() {
     const router = useRouter();
 
     const [error, setError] = useState(null);
@@ -21,7 +21,7 @@ export function RegisterForm({url}: {url: string | undefined}) {
         const email = (document.getElementById('registerId__email') as HTMLInputElement).value;
         const pwd = (document.getElementById('registerId__pwd') as HTMLInputElement).value;
 
-        let response = await fetch(`${url}/api/auth/register`, {
+        let response = await fetch(`/api/auth/register`, {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -44,7 +44,7 @@ export function RegisterForm({url}: {url: string | undefined}) {
         setError(null); setSuccess(null);
         const otp = (document.getElementById('registerId__otp') as HTMLInputElement).value;
 
-        let response = await fetch(`${url}/api/auth/verify`, {
+        let response = await fetch(`/api/auth/verify`, {
             method: 'POST',
             credentials: 'include',
             headers: {

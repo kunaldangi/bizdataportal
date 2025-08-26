@@ -8,7 +8,7 @@ import { Button } from '@/components/Button';
 import { ErrorBox } from "@/components/ErrorBox";
 import { SuccessBox } from "@/components/SuccessBox";
 
-export function LoginButton({url, email, password}: {url: string | undefined, email: string | undefined, password: string | undefined}) {
+export function LoginButton({email, password}: {email: string | undefined, password: string | undefined}) {
     const router = useRouter();
 
     const [error, setError] = useState(null);
@@ -21,7 +21,7 @@ export function LoginButton({url, email, password}: {url: string | undefined, em
         const email = (document.getElementById('loginId__email') as HTMLInputElement).value;
         const pwd = (document.getElementById('loginId__pwd') as HTMLInputElement).value;
 
-        let response = await fetch(`${url}/api/auth/login`, {
+        let response = await fetch(`/api/auth/login`, {
             method: 'POST',
             credentials: 'include',
             headers: {

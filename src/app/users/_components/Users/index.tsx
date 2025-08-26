@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react";
 import { SuccessToast } from "@/components/SuccessToast";
 
-export function Users({url}: {url: string}){
+export function Users(){
     const router = useRouter();
     const[users, setUsers] = useState([]);
 
@@ -20,7 +20,7 @@ export function Users({url}: {url: string}){
     }, []);
 
     async function getUsers(){
-        let response = await fetch(`${url}/graphql`, {
+        let response = await fetch(`/graphql`, {
             method: "POST",
             credentials: "include",
             headers: {

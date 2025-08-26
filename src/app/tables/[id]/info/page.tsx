@@ -20,7 +20,7 @@ export default async function Page({params}: {params: {id: string}}){
 					<Goto href="/tables"><div className="items"><Sheet width={20} height={20} /> Tables </div></Goto>
 				</IndexBar>
 				<Content>
-                    <TableInfo url={`${process.env.BACKEND_URL}`} id={params.id} />
+                    <TableInfo id={params.id} />
 				</Content>
 			</Body>
 		</HomeLayout>

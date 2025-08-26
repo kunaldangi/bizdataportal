@@ -20,7 +20,7 @@ export default function Page({ params }: { params: {id: string} }) {
 					<Goto href="/tables"><div className="items"><Sheet width={20} height={20} /> Tables </div></Goto>
 				</IndexBar>
 				<Content>
-                    <User url={`${process.env.BACKEND_URL}`} id={params.id} />
+                    <User id={params.id} />
 				</Content>
 			</Body>
 		</HomeLayout>

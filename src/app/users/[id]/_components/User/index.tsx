@@ -11,7 +11,7 @@ import { Switch } from "@/components/Switch";
 import { ErrorToast } from "@/components/ErrorToast";
 import { SuccessToast } from "@/components/SuccessToast";
 
-export function User({url, id}: {url: string, id: string}){
+export function User({id}: {id: string}){
     const router = useRouter();
 
     const [userInfo, setUserInfo] = useState({id: "", username: "", email: "", level: "", permissions: {usersAcc: {manage: false, managePermissions: false, manageWhitelist: false}, tables: {create: false, read: false, writeIn: false, manage: false, manageUserPermissions: false}}});
@@ -25,7 +25,7 @@ export function User({url, id}: {url: string, id: string}){
 
     async function getUser(){
         setEdit(false);
-        let response = await fetch(`${url}/graphql`, {
+        let response = await fetch(`/graphql`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -84,7 +84,7 @@ export function User({url, id}: {url: string, id: string}){
         delete cpUserInfo?.createdAt;
         delete cpUserInfo?.updatedAt;
 
-        let response = await fetch(`${url}/graphql`, {
+        let response = await fetch(`/graphql`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -138,7 +138,7 @@ export function User({url, id}: {url: string, id: string}){
 
     async function deleteUser(){
         setEdit(false);
-        let response = await fetch(`${url}/graphql`, {
+        let response = await fetch(`/graphql`, {
             method: "POST",
             credentials: "include",
             headers: {

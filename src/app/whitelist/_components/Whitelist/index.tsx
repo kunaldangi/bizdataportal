@@ -10,7 +10,7 @@ import { SuccessBox } from "@/components/SuccessBox";
 import { SuccessToast } from "@/components/SuccessToast";
 import { ErrorToast } from "@/components/ErrorToast";
 
-export function Whitelist({url}: {url: string}) {
+export function Whitelist() {
     const [whitelist, setWhitelist] = useState([]);
 
     const [addError, setAddError] = useState(null);
@@ -23,11 +23,11 @@ export function Whitelist({url}: {url: string}) {
     const [whitelistEmailSuccess, setWhitelistEmailSuccess] = useState(null);
 
     useEffect(() => {
-        getWhitelist(url);
+        getWhitelist();
     }, []);
 
-    async function getWhitelist(url: string) {
-        let response = await fetch(`${url}/graphql`, {
+    async function getWhitelist() {
+        let response = await fetch(`/graphql`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -56,7 +56,7 @@ export function Whitelist({url}: {url: string}) {
     }
 
     async function deleteWhitelistEmail(email: string, index: number) {
-        let response = await fetch(`${url}/graphql`, {
+        let response = await fetch(`/graphql`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -103,7 +103,7 @@ export function Whitelist({url}: {url: string}) {
             return;
         }
 
-        let response = await fetch(`${url}/graphql`, {
+        let response = await fetch(`/graphql`, {
             method: "POST",
             credentials: "include",
             headers: {

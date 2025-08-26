@@ -13,7 +13,7 @@ import { SuccessBox } from "@/components/SuccessBox";
 import { ErrorToast } from "@/components/ErrorToast";
 import { SuccessToast } from "@/components/SuccessToast";
 
-export function Tables({url}: {url: string}) {
+export function Tables() {
     const router = useRouter();
     const [tablesList, setTablesList] = useState([]);
     const [tableDropdown, setTableDropdown] = useState(null as any);
@@ -26,7 +26,7 @@ export function Tables({url}: {url: string}) {
     const [tablesSuccess, setTablesSuccess] = useState(null);
 
     useEffect(()=>{
-        getTablesList(url);
+        getTablesList();
 
         async function handleOnClick(e: any){
             if(e.target.className !== "tables__names") setTableDropdown(null);
@@ -38,8 +38,8 @@ export function Tables({url}: {url: string}) {
         return () => { document.removeEventListener("click", handleOnClick);}
     }, [])
 
-    async function getTablesList(url: string) {
-        let response = await fetch(`${url}/graphql`, {
+    async function getTablesList() {
+        let response = await fetch(`/graphql`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -112,7 +112,7 @@ export function Tables({url}: {url: string}) {
     }
 
     async function onTableCreate(){
-        let response = await fetch(`${url}/graphql`, {
+        let response = await fetch(`/graphql`, {
             method: "POST",
             credentials: "include",
             headers: {

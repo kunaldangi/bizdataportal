@@ -18,7 +18,7 @@ export class Database {
     public tablePermissions: ModelCtor<Model<any, any>> = {} as ModelCtor<Model<any, any>>;
     public otp: ModelCtor<Model<any, any>> = {} as ModelCtor<Model<any, any>>;
 
-    public async initialize(){ // because constructor can't be async
+    public async initialize() { // because constructor can't be async
         let dbConfig = {
             host: process.env.DATABASE_HOST || "127.0.0.1",
             name: process.env.DATABASE_NAME || '',
@@ -34,65 +34,73 @@ export class Database {
             }
         });
 
+        this.sequelize = new Sequelize({
+            dialect: 'sqlite',
+            storage: './database.sqlite',
+            define: {
+                freezeTableName: true
+            }
+        });
+
         try {
             await this.sequelize.authenticate();
             console.log(`Database connection has been established successfully with ${dbConfig.host}:${dbConfig.name}`);
         } catch (error) {
             console.log(`Unable to connect with database ${dbConfig.host}:${dbConfig.name}\nERROR: ${error}`)
         }
-        
+
         this.whitelistEmail = initializeWhitelistEmailModel(this.sequelize);
         this.otp = initializeOtpModel(this.sequelize);
         this.user = initializeUserModel(this.sequelize);
         this.tables = initializeTablesModel(this.sequelize);
         this.tablePermissions = initializeTablePermissionsModel(this.sequelize);
 
-        await this.sequelize.sync({alter: true});
+        await this.sequelize.sync({ alter: true });
 
-        
-        let normalData = await this.user.findOne({ where: { email: `${process.env.NORMALUSER_NAME || 'john'}@${process.env.BACKEND_HOST}` }});
-        if(!normalData?.dataValues){
+
+        let normalData = await this.user.findOne({ where: { email: `${process.env.NORMALUSER_NAME || 'john'}@${process.env.BACKEND_HOST}` } });
+        if (!normalData?.dataValues) {
             let saltNormalPass: string = bcrypt.genSaltSync(10);
             let hashNormalPass: string = bcrypt.hashSync(process.env.NORMALUSER_PASSWORD || 'john', saltNormalPass);
             let normalPerm = {
-                usersAcc:{
-                    manage:false,
-                    managePermissions:false,
-                    manageWhitelist:false
+                usersAcc: {
+                    manage: false,
+                    managePermissions: false,
+                    manageWhitelist: false
                 },
-                tables:{
-                    create:true,
-                    read:true,
-                    writeIn:true,
-                    manage:true,
-                    manageUserPermissions:true
+                tables: {
+                    create: true,
+                    read: true,
+                    writeIn: true,
+                    manage: true,
+                    manageUserPermissions: true
                 }
             };
             let normalUserData: any = await db.user?.create({ username: process.env.NORMALUSER_NAME || 'john', email: `${process.env.NORMALUSER_NAME || 'john'}@${process.env.BACKEND_HOST}`, password: hashNormalPass, level: 0, permissions: normalPerm });
-            if(normalUserData?.dataValues.email) console.log(` - User 'john' created!`);
+            if (normalUserData?.dataValues.email) console.log(` - User 'john' created!`);
         }
         else console.log(` - User 'john' already exists!`);
 
-        let adminData = await this.user.findOne({ where: { email: `${process.env.ADMINUSER_NAME || 'admin'}@${process.env.BACKEND_HOST}` }});
-        if(!adminData?.dataValues){
+        let adminData = await this.user.findOne({ where: { email: `${process.env.ADMINUSER_NAME || 'admin'}@${process.env.BACKEND_HOST}` } });
+        if (!adminData?.dataValues) {
             let saltAdminPass: string = bcrypt.genSaltSync(10);
             let hashAdminPass: string = bcrypt.hashSync(process.env.ADMINUSER_PASSWORD || 'admin', saltAdminPass);
             let adminPerm = {
-                usersAcc:{
-                    manage:true,
-                    managePermissions:true,
-                    manageWhitelist:true
+                usersAcc: {
+                    manage: true,
+                    managePermissions: true,
+                    manageWhitelist: true
                 },
-                tables:{
-                    create:true,
-                    read:true,
-                    writeIn:true,
-                    manage:true,
-                    manageUserPermissions:true
+                tables: {
+                    create: true,
+                    read: true,
+                    writeIn: true,
+                    manage: true,
+                    manageUserPermissions: true
                 }
             };
             let adminUserData: any = await db.user?.create({ username: process.env.ADMINUSER_NAME || 'admin', email: `${process.env.ADMINUSER_NAME || 'admin'}@${process.env.BACKEND_HOST}`, password: hashAdminPass, level: 999, permissions: adminPerm });
-            if(adminUserData?.dataValues.email) console.log(` - User 'admin' created!`);
+            if (adminUserData?.dataValues.email) console.log(` - User 'admin' created!`);
         }
         else console.log(` - User 'admin' already exists!`);
     }

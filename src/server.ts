@@ -17,17 +17,7 @@ import { nextApp } from "./next";
 
 let corsOptions = {
     origin: function (origin: any, callback: any) {
-        console.log("Origin: ", origin);
-
-        if (
-            !origin || 
-            origin.includes("bizdataportal") || 
-            origin.startsWith("http://localhost")
-        ) {
-            callback(null, true);
-        } else {
-            callback(new Error("You are not allowed to access this server!"));
-        }
+        callback(null, true);
     },
     credentials: true
 };

@@ -15,20 +15,23 @@ import { setHttpContext } from "./graphql/context";
 import { nextApp } from "./next";
 
 
-let corsOptions = { // Cross-Origin Resource Sharing (CORS) configuration
+let corsOptions = {
     origin: function (origin: any, callback: any) {
         console.log("Origin: ", origin);
-        const allowedDomain = /\.kunaldangi\.me$/;
-        
-        if (!origin || allowedDomain.test(origin) || origin.startsWith("http://localhost")) {
+
+        if (
+            !origin || 
+            origin.includes("bizdataportal") || 
+            origin.startsWith("http://localhost")
+        ) {
             callback(null, true);
-        }
-        else{
-            callback(new Error('You are not allowed to access this server!'));
+        } else {
+            callback(new Error("You are not allowed to access this server!"));
         }
     },
     credentials: true
-}
+};
+
 
 async function main(): Promise<void> {
     const isDevMode = (process.env.SERVER_RUN_MODE === "development");
